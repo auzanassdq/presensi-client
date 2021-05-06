@@ -1,13 +1,11 @@
 import {
   API_REQUEST,
-  GET_MATKUL_SUCCESS,
-  GET_ALL_MATKUL_SUCCESS,
-  GET_MAHASISWA_MATKUL_SUCCESS
-} from '../actions/matkulAction'
+  GET_PERTEMUAN_SUCCESS,
+  GET_PERTEMUAN_MATKUL_SUCCESS,
+} from '../actions/pertemuanAction'
 
 const initialState = {
   isLoading: false,
-  allPertemuan: [],
   pertemuanByMatkul: [],
   pertemuan: {}
 }
@@ -19,23 +17,17 @@ const pertemuanReducer = (state = initialState, action) => {
         ...state,
         isLoading: true,
       }
-    case GET_MATKUL_SUCCESS:
+    case GET_PERTEMUAN_SUCCESS:
       return {
         ...state,
         isLoading: false,
-        matkul: action.payload,
+        pertemuan: action.payload,
       }
-    case GET_ALL_MATKUL_SUCCESS:
+    case GET_PERTEMUAN_MATKUL_SUCCESS:
       return {
         ...state,
         isLoading: false,
-        allMatkul: action.payload,
-      }
-    case GET_MAHASISWA_MATKUL_SUCCESS:
-      return {
-        ...state,
-        isLoading: false,
-        mahasiswaMatkul: action.payload
+        pertemuanByMatkul: action.payload
       }
     default:
       return state
