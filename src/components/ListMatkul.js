@@ -5,19 +5,19 @@ import {
   Wrap,
   WrapItem,
   Center,
-  Container,
-  Box,
-  useColorModeValue
+  useColorModeValue,
 } from '@chakra-ui/react';
 
 import { getMahasiswaMatkul } from '../redux/actions/matkulAction';
 
 function ListMatkul() {
   const dispatch = useDispatch();
-  const fromBg = useColorModeValue("gray.200", "gray.700");
+  const fromBg = useColorModeValue('gray.200', 'gray.700');
   const history = useHistory();
 
-  const matkul = useSelector(state => state.matkulReducer.mahasiswaMatkul);
+  const { mahasiswaMatkul } = useSelector(
+    state => state.matkulReducer
+  );
   const { userId } = useSelector(state => state.userReducer);
 
   useEffect(() => {
@@ -31,32 +31,23 @@ function ListMatkul() {
   return (
     // <Container maxW="container.lg">
     <Wrap mt={5} spacing={5} justify="center">
-      {matkul &&
-        matkul.map((item, index) => (
+      {mahasiswaMatkul &&
+        mahasiswaMatkul.map((item, index) => (
           <WrapItem key={index} onClick={() => handleMatkul(item.matkul)}>
-            <Center w="xs" rounded={5} p={5} overflow="hidden" boxShadow="lg" bg={fromBg}>
+            <Center
+              w="xs"
+              rounded={5}
+              p={5}
+              overflow="hidden"
+              boxShadow="lg"
+              bg={fromBg}
+            >
               {item.matkul.nama}
             </Center>
           </WrapItem>
         ))}
-        <WrapItem>
-            <Box w="200px" rounded={10} p={5} overflow="hidden" boxShadow="md" bg={fromBg}>
-              a
-            </Box>
-          </WrapItem>
-          <WrapItem>
-            <Box w="200px" rounded={10} p={5} overflow="hidden" boxShadow="md" bg={fromBg}>
-              b
-            </Box>
-          </WrapItem>
-          <WrapItem>
-            <Box w="200px" rounded={10} p={5} overflow="hidden" boxShadow="md" bg={fromBg}>
-              c
-            </Box>
-          </WrapItem>
     </Wrap>
     // </Container>
-
   );
 }
 
