@@ -1,7 +1,6 @@
 import React from 'react';
 import { ChakraProvider, Grid, theme } from '@chakra-ui/react';
-import { ColorModeSwitcher } from './ColorModeSwitcher';
-import { Switch, Route, Link, Redirect } from 'react-router-dom';
+import { Switch, Route, Redirect } from 'react-router-dom';
 import { useSelector } from 'react-redux';
 
 import ListMatkul from './components/ListMatkul';
