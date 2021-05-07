@@ -11,13 +11,16 @@ export default function ListPertemuan({ matkulId }) {
   const pertemuan = useSelector(
     state => state.pertemuanReducer.pertemuanByMatkul
   );
+  const { userId } = useSelector(state => state.userReducer);
+  const { kehadiran } = useSelector(state => state.kehadiranReducer);
 
+  console.log(pertemuan);
   useEffect(() => {
-    dispatch(getPertemuanByMatkul(matkulId));
-  }, [dispatch, matkulId]);
+    dispatch(getPertemuanByMatkul(matkulId, userId));
+  }, [dispatch, kehadiran, matkulId, userId]);
 
   return (
-    <List mt={5}>
+    <List mt={5} pl="auto" pr="auto">
       {pertemuan &&
         pertemuan.map((item, index) => (
           <PertemuanItem
