@@ -1,53 +1,54 @@
-import axios from 'axios'
+import axios from 'axios';
+import { authHeader } from '../../utilities';
 
-export const API_REQUEST = "API_REQUEST"
-export const GET_PERTEMUAN_SUCCESS = "GET_PERTEMUAN_SUCCESS"
-export const GET_PERTEMUAN_MATKUL_SUCCESS = "GET_PERTEMUAN_MATKUL_SUCCESS"
+export const API_REQUEST = 'API_REQUEST';
+export const GET_PERTEMUAN_SUCCESS = 'GET_PERTEMUAN_SUCCESS';
+export const GET_PERTEMUAN_MATKUL_SUCCESS = 'GET_PERTEMUAN_MATKUL_SUCCESS';
 
 const apiRequest = () => {
   return {
-    type: API_REQUEST
-  }
-}
+    type: API_REQUEST,
+  };
+};
 
-const getPertemuanSuccess = (payload) => {
+const getPertemuanSuccess = payload => {
   return {
     type: GET_PERTEMUAN_SUCCESS,
-    payload
-  }
-}
+    payload,
+  };
+};
 
-const getPertemuanMatkulSuccess = (payload) => {
+const getPertemuanMatkulSuccess = (payload, mahasiswaId) => {
   return {
     type: GET_PERTEMUAN_MATKUL_SUCCESS,
-    payload
-  }
-}
+    payload,
+    mahasiswaId
+  };
+};
 
-export const getPertemuanByID = (pertemuanId) => async (dispatch) => {
-  dispatch(apiRequest())
-  let token = localStorage.getItem("token")
-  
-  let result = await axios.get(process.env.REACT_APP_API + "/pertemuan/" + pertemuanId,
-  {
-    headers: {
-      'Authorization': `Bearer ${token}`
-    }
-  })
-  dispatch(getPertemuanSuccess(result.data.data))
-}
+export const getPertemuanByID = pertemuanId => async dispatch => {
+  dispatch(apiRequest());
+  let token = localStorage.getItem('token');
 
-export const getPertemuanByMatkul = (matkulId) => async (dispatch) => {
-  console.log(matkulId);
-  dispatch(apiRequest())
-  let token = localStorage.getItem("token")
-  
   let result = await axios.get(
-    process.env.REACT_APP_API + "/pertemuan/matkul/" + matkulId, 
+    process.env.REACT_APP_API + '/pertemuan/' + pertemuanId,
     {
       headers: {
-        'Authorization': `Bearer ${token}`
-      }
-    })
-  dispatch(getPertemuanMatkulSuccess(result.data.data))
-}
+        Authorization: `Bearer ${token}`,
+      },
+    }
+  );
+  dispatch(getPertemuanSuccess(result.data.data));
+};
+
+export const getPertemuanByMatkul = (matkulId, mahasiswaId) => async dispatch => {
+  console.log(matkulId);
+  dispatch(apiRequest());
+
+  let result = await axios({
+    method: 'get',
+    url: `${process.env.REACT_APP_API}/pertemuan/?matkul=${matkulId}`,
+    headers: authHeader(),
+  });
+  dispatch(getPertemuanMatkulSuccess(result.data.data, mahasiswaId));
+};
