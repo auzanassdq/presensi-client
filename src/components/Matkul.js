@@ -1,3 +1,4 @@
+import { Center } from '@chakra-ui/layout';
 import { Box, Heading } from '@chakra-ui/layout';
 import { useEffect } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
@@ -10,7 +11,7 @@ function Matkul() {
   const { idMatkul } = useParams();
   const dispatch = useDispatch();
   const { matkul } = useSelector(state => state.matkulReducer);
-  
+
   useEffect(() => {
     dispatch(getMatkulByID(idMatkul));
   }, [dispatch, idMatkul]);
@@ -18,12 +19,13 @@ function Matkul() {
   return (
     <Box p={2}>
       {matkul && (
-        <Box ml="auto" mr="auto">
-            <Heading>{matkul.nama}</Heading>
+        <>
+          <Heading textAlign="center">{matkul.nama}</Heading>
+          <Center>
             <ListPertemuan matkulId={idMatkul} />
-        </Box>
+          </Center>
+        </>
       )}
-      {/* <h3>{matkul.jadwal}</h3> */}
     </Box>
   );
 }
