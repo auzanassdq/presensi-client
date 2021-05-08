@@ -10,8 +10,10 @@ import Navbar from './components/Navbar';
 import AdminDashboard from './components/AdminDashboard';
 
 function Home({ isLogin, userId }) {
-  if (isLogin)
-    return userId === 'admin' ? <Redirect to="/dashboard" /> : <ListMatkul />;
+  if (isLogin) {
+    if (userId === 'admin') return <Redirect to="/dashboard" />;
+    return <ListMatkul />;
+  }
   return <Redirect to="/login" />;
 }
 
@@ -32,10 +34,10 @@ function App() {
             {isLogin ? <Redirect to="/" /> : <Login />}
           </Route>
           <Route path="/dashboard">
-            <AdminDashboard />
+            {isLogin ? <AdminDashboard /> : <Redirect to="/" />}
           </Route>
           <Route path="/matkul/:idMatkul">
-            <Matkul />
+            {isLogin ? <Matkul /> : <Redirect to="/" />}
           </Route>
         </Switch>
       </Container>
