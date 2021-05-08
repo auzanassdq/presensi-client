@@ -1,5 +1,3 @@
-
-
 //   let userRegex = /u/
 //   let passRegex = /p/
 //   if (e.target.name == "username") {
@@ -18,76 +16,87 @@
 //   }
 // }
 
-import {useState} from 'react'
+import { useState } from 'react';
 import {
   Input,
   Button,
   InputGroup,
   InputRightElement,
   Heading,
-  Flex, 
+  Flex,
   IconButton,
-  useColorModeValue
 } from '@chakra-ui/react';
-import { ViewIcon, ViewOffIcon } from '@chakra-ui/icons'
-import {useDispatch, useSelector} from 'react-redux'
-import {login} from '../redux/actions/userAction'
+import { ViewIcon, ViewOffIcon } from '@chakra-ui/icons';
+import { useDispatch, useSelector } from 'react-redux';
+import { login } from '../redux/actions/userAction';
+import CardForm from './CardForm';
 
 function Login() {
-  const dispatch = useDispatch()
-  const user = useSelector(state => state.userReducer)
-  const [userLogin, setUserLogin] = useState({ username: "", password: "" })
-  const [show, setShow] = useState(false)
-  const fromBg = useColorModeValue("gray.200", "gray.700");
+  const dispatch = useDispatch();
+  const user = useSelector(state => state.userReducer);
+  const [userLogin, setUserLogin] = useState({ username: '', password: '' });
+  const [show, setShow] = useState(false);
 
-
-  const handleChange = (e) => {
+  const handleChange = e => {
     setUserLogin({
       ...userLogin,
-      [e.target.name]: e.target.value
-    })
-  }
+      [e.target.name]: e.target.value,
+    });
+  };
 
-  const handleLogin = (e) => {
-    e.preventDefault()
-    dispatch(login(userLogin))
-  }
+  const handleLogin = e => {
+    e.preventDefault();
+    dispatch(login(userLogin));
+  };
 
   return (
     <Flex justifyContent="center">
-      <Flex direction="column" bg={fromBg} rounded={10} p={12}>
-      <Heading mb={6} textAlign="center">LOGIN</Heading>
-      <Input
-        mb={2}
-        variant="filled"
-        placeholder="Masukkan Username" 
-        type="text" 
-        name="username" 
-        id="username" 
-        value={userLogin.username} 
-        onChange={handleChange}/>
-      <InputGroup size="md" mb={4}>
+      <CardForm>
+        <Heading mb={6} textAlign="center">
+          LOGIN
+        </Heading>
         <Input
-          pr="4.5rem"
+          mb={2}
           variant="filled"
-          type={show ? "text" : "password"}
-          placeholder="Masukkan Password"
-          name="password" 
-          id="password" 
-          value={userLogin.password} 
+          placeholder="Masukkan Username"
+          type="text"
+          name="username"
+          id="username"
+          value={userLogin.username}
           onChange={handleChange}
         />
-        <InputRightElement>
-          <IconButton icon={show? <ViewIcon/> : <ViewOffIcon/>} h="1.75rem" size="sm" onClick={() => setShow(!show)} />
-        </InputRightElement>
-      </InputGroup>
-      { user.isLoading ? 
-        <Button isLoading loadingText="Login" colorScheme="blue">Login</Button> : 
-        <Button colorScheme="blue" onClick={handleLogin}>Login</Button>
-      }
-      </Flex>
+        <InputGroup size="md" mb={4}>
+          <Input
+            pr="4.5rem"
+            variant="filled"
+            type={show ? 'text' : 'password'}
+            placeholder="Masukkan Password"
+            name="password"
+            id="password"
+            value={userLogin.password}
+            onChange={handleChange}
+          />
+          <InputRightElement>
+            <IconButton
+              icon={show ? <ViewIcon /> : <ViewOffIcon />}
+              h="1.75rem"
+              size="sm"
+              onClick={() => setShow(!show)}
+            />
+          </InputRightElement>
+        </InputGroup>
+        {user.isLoading ? (
+          <Button isLoading loadingText="Login" colorScheme="blue">
+            Login
+          </Button>
+        ) : (
+          <Button colorScheme="blue" onClick={handleLogin}>
+            Login
+          </Button>
+        )}
+      </CardForm>
     </Flex>
-  )
+  );
 }
 
-export default Login
+export default Login;
