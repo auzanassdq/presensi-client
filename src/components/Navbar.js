@@ -2,17 +2,18 @@ import {
   Heading,
   Flex, 
   Spacer,
-  Box
+  Box,
+  Center
 } from '@chakra-ui/react';
 import { ColorModeSwitcher } from '../ColorModeSwitcher';
 
 
 function Navbar() {
   return (
-    <Flex>
-      <Box p="2">
+    <Flex p="2">
+      <Center>
         <Heading size="md">PRESENSI</Heading>
-      </Box>
+      </Center>
       <Spacer />
       <Box>
         <ColorModeSwitcher justifySelf="flex-end" />
