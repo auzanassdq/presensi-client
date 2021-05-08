@@ -50,7 +50,7 @@ function Login() {
   };
 
   return (
-    <Flex justifyContent="center">
+    <Flex justifyContent="center" mt="100px">
       <CardForm>
         <Heading mb={6} textAlign="center">
           LOGIN
