@@ -28,7 +28,7 @@ const pertemuanReducer = (state = initialState, action) => {
       data = data.map(item => {
         return {
           ...item,
-          kehadiran: item.kehadiran.find(item => item.mahasiswa == action.mahasiswaId)
+          kehadiran: item.kehadiran.find(item => item.mahasiswa === action.mahasiswaId)
         }
       })
       return {
