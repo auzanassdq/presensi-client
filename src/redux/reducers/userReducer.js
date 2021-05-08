@@ -3,6 +3,7 @@ import {
   LOGIN_SUCCESS,
   LOGIN_REQUEST,
   LOGIN_FAIL,
+  LOGOUT,
 } from '../actions/userAction';
 
 const token = localStorage.getItem('token');
@@ -40,6 +41,12 @@ const userReducer = (state = initialState, action) => {
         ...state,
         isLoading: false,
       };
+      case LOGOUT:
+        return {
+          isLoading: false,
+          isLogin: false,
+          userId: '',
+        }
     default:
       return state;
   }
