@@ -4,6 +4,7 @@ import {
   GET_MATKUL_SUCCESS,
   GET_ALL_MATKUL_SUCCESS,
   GET_MAHASISWA_MATKUL_SUCCESS,
+  CREATE_MATKUL_SUCCESS,
 } from '../actions/matkulAction';
 
 const initialState = {
@@ -24,6 +25,12 @@ const matkulReducer = (state = initialState, action) => {
       return {
         ...state,
         isLoading: false,
+      };
+    case CREATE_MATKUL_SUCCESS:
+      return {
+        ...state,
+        isLoading: false,
+        matkul: action.payload,
       };
     case GET_MATKUL_SUCCESS:
       return {
