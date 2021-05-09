@@ -1,7 +1,6 @@
 import { ListItem } from '@chakra-ui/layout';
-import React from 'react';
 
-export default function MenuItem(props) {
+const MenuItem = ({text}) => {
   return (
     <ListItem
       p="1"
@@ -11,9 +10,11 @@ export default function MenuItem(props) {
       cursor="pointer"
       _hover={{ bg: 'gray.600' }}
       transition="all 0.2s cubic-bezier(.08,.52,.52,1)"
-      {...props}
+      // {...props}
     >
-      {props.children}
+      {text}
     </ListItem>
-  );
+  )
 }
+
+export default MenuItem;
