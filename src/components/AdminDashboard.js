@@ -1,30 +1,12 @@
-import {
-  Breadcrumb,
-  BreadcrumbItem,
-  BreadcrumbLink,
-  List,
-  VStack,
-  ChevronRightIcon,
-  Flex,
-} from '@chakra-ui/react';
 import React from 'react';
+import { List, VStack, Flex, Heading } from '@chakra-ui/react';
 import { Link, Route, Switch, useRouteMatch } from 'react-router-dom';
+
 import DashboardContent from './DashboardContent';
 import MenuItem from './MenuItem';
 
-// function BreadcrumbAdmin(params) {
-//   return (
-//     <Breadcrumb spacing="8px" separator={<ChevronRightIcon color="gray.500" />}>
-//       <BreadcrumbItem isCurrentPage>
-//         <BreadcrumbLink href="/">Home</BreadcrumbLink>
-//       </BreadcrumbItem>
-//     </Breadcrumb>
-//   );
-// }
-
 export default function AdminDashboard() {
   let { path, url } = useRouteMatch();
-  console.log(path);
 
   return (
     <Flex direction="row">
@@ -36,23 +18,23 @@ export default function AdminDashboard() {
       >
         <List spacing={5}>
           <Link to={`/dashboard`}>
-            <MenuItem>Home</MenuItem>
+            <MenuItem text="Home" />
           </Link>
           <Link to={`${path}/dosen`}>
-            <MenuItem>Dosen</MenuItem>
+            <MenuItem text="Dosen" />
           </Link>
           <Link to={`${path}/matkul`}>
-            <MenuItem>Matkul</MenuItem>
+            <MenuItem text="Matkul" />
           </Link>
         </List>
       </VStack>
 
       <Switch>
         <Route exact path={`${path}`}>
-          <DashboardContent />
+          <Heading>Dashboard</Heading>
         </Route>
         <Route path={`${path}/:content`}>
-          <DashboardContent />
+          <DashboardContent dashboardURL={path} />
         </Route>
       </Switch>
     </Flex>
