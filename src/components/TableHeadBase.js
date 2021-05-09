@@ -1,5 +1,5 @@
 import React from 'react';
-import { Th, Thead, Tr, useColorModeValue } from '@chakra-ui/table';
+import { Th, Thead, Tr, useColorModeValue } from '@chakra-ui/react';
 
 export default function TableHeadBase({ headers }) {
   const thColor = useColorModeValue('blackAlpha.400', 'blackAlpha.700');
