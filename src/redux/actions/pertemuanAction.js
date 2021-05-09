@@ -28,21 +28,16 @@ const getPertemuanMatkulSuccess = (payload, mahasiswaId) => {
 
 export const getPertemuanByID = pertemuanId => async dispatch => {
   dispatch(apiRequest());
-  let token = localStorage.getItem('token');
 
-  let result = await axios.get(
-    process.env.REACT_APP_API + '/pertemuan/' + pertemuanId,
-    {
-      headers: {
-        Authorization: `Bearer ${token}`,
-      },
-    }
-  );
+  let result = await axios({
+    method: 'get',
+    url: `${process.env.REACT_APP_API}/pertemuan/${pertemuanId}`,
+    headers: authHeader(),
+  });
   dispatch(getPertemuanSuccess(result.data.data));
 };
 
 export const getPertemuanByMatkul = (matkulId, mahasiswaId) => async dispatch => {
-  console.log(matkulId);
   dispatch(apiRequest());
 
   let result = await axios({
