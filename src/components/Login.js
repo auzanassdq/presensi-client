@@ -17,6 +17,9 @@
 // }
 
 import { useState } from 'react';
+import { useFormik } from 'formik';
+import { ViewIcon, ViewOffIcon } from '@chakra-ui/icons';
+import { useDispatch, useSelector } from 'react-redux';
 import {
   Input,
   Button,
@@ -26,28 +29,26 @@ import {
   Flex,
   IconButton,
 } from '@chakra-ui/react';
-import { ViewIcon, ViewOffIcon } from '@chakra-ui/icons';
-import { useDispatch, useSelector } from 'react-redux';
+
 import { login } from '../redux/actions/userAction';
 import CardForm from './CardForm';
 
 function Login() {
   const dispatch = useDispatch();
   const user = useSelector(state => state.userReducer);
-  const [userLogin, setUserLogin] = useState({ username: '', password: '' });
   const [show, setShow] = useState(false);
-
-  const handleChange = e => {
-    setUserLogin({
-      ...userLogin,
-      [e.target.name]: e.target.value,
-    });
-  };
-
-  const handleLogin = e => {
-    e.preventDefault();
-    dispatch(login(userLogin));
-  };
+  
+  const formik = useFormik({
+    initialValues: {
+      username: '',
+      password: '',
+    },
+    // validate,
+    onSubmit: values => {
+      console.log(values);
+      dispatch(login(values));
+    },
+  });
 
   return (
     <Flex justifyContent="center" mt="100px">
@@ -62,8 +63,8 @@ function Login() {
           type="text"
           name="username"
           id="username"
-          value={userLogin.username}
-          onChange={handleChange}
+          onChange={formik.handleChange}
+          value={formik.values.username}
         />
         <InputGroup size="md" mb={4}>
           <Input
@@ -73,8 +74,8 @@ function Login() {
             placeholder="Masukkan Password"
             name="password"
             id="password"
-            value={userLogin.password}
-            onChange={handleChange}
+            onChange={formik.handleChange}
+            value={formik.values.password}
           />
           <InputRightElement>
             <IconButton
@@ -90,7 +91,7 @@ function Login() {
             Login
           </Button>
         ) : (
-          <Button colorScheme="blue" onClick={handleLogin}>
+          <Button colorScheme="blue" onClick={formik.handleSubmit}>
             Login
           </Button>
         )}
