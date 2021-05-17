@@ -1,6 +1,7 @@
 import {
   API_REQUEST,
   REQUEST_FAIL,
+  REQUEST_MATKUL_SUCCESS,
   GET_MATKUL_SUCCESS,
   GET_ALL_MATKUL_SUCCESS,
   GET_MAHASISWA_MATKUL_SUCCESS,
@@ -25,6 +26,12 @@ const matkulReducer = (state = initialState, action) => {
       return {
         ...state,
         isLoading: false,
+      };
+    case REQUEST_MATKUL_SUCCESS:
+      return {
+        ...state,
+        isLoading: false,
+        matkul: action.payload,
       };
     case CREATE_MATKUL_SUCCESS:
       return {

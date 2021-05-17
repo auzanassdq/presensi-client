@@ -3,6 +3,7 @@ import { authHeader } from '../../utilities';
 
 export const API_REQUEST = 'API_REQUEST';
 export const REQUEST_FAIL = 'REQUEST_FAIL';
+export const REQUEST_MATKUL_SUCCESS = 'REQUEST_MATKUL_SUCCESS';
 export const CREATE_MATKUL_SUCCESS = 'CREATE_MATKUL_SUCCESS';
 export const GET_MATKUL_SUCCESS = 'GET_MATKUL_SUCCESS';
 export const GET_ALL_MATKUL_SUCCESS = 'GET_ALL_MATKUL_SUCCESS';
@@ -14,7 +15,7 @@ const apiRequest = () => {
   };
 };
 
-const requestFail = () => {
+export const requestFail = () => {
   return {
     type: API_REQUEST,
   };
@@ -44,6 +45,13 @@ const getMahasiswaMatkulSuccess = payload => {
 const createMatkulSuccess = payload => {
   return {
     type: CREATE_MATKUL_SUCCESS,
+    payload,
+  };
+};
+
+export const reqMatkulSuccess = payload => {
+  return {
+    type: REQUEST_MATKUL_SUCCESS,
     payload,
   };
 };
@@ -101,11 +109,31 @@ export const createMatkul = data => async dispatch => {
     headers: authHeader(),
     data,
   });
-  // console.log(result);
+
   if (!result.data) {
     dispatch(requestFail());
-    return;
+    throw new Error("No");
   }
 
   dispatch(createMatkulSuccess(result.data.data));
+  return
+};
+
+export const editMatkul = (data, matkulId) => async dispatch => {
+  dispatch(apiRequest());
+
+  let result = await axios({
+    method: 'put',
+    url: `${process.env.REACT_APP_API}/matkul/${matkulId}`,
+    headers: authHeader(),
+    data,
+  });
+
+  if (!result.data) {
+    dispatch(requestFail());
+    throw new Error("No");
+  }
+  
+  dispatch(reqMatkulSuccess(result.data.data));
+  return
 };
