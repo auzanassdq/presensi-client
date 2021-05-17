@@ -17,11 +17,12 @@ import moment from 'moment';
 
 export default function PertemuanItem({ pertemuan, lastItem }) {
   const fromBg = useColorModeValue('gray.200', 'gray.700');
+
   const checkColor = useColorModeValue('blue.100', 'blue.900');
   const textCheckColor = useColorModeValue('blue.500', 'blue.500');
 
-  const unCheckColor = useColorModeValue('red.100', 'red.900');
-  const textUnCheckColor = useColorModeValue('red.500', 'red.500');
+  const unCheckColor = useColorModeValue('pink.100', 'pink.900');
+  const textUnCheckColor = useColorModeValue('pink.500', 'pink.500');
 
   const { isOpen, onOpen, onClose } = useDisclosure();
 
