@@ -1,20 +1,27 @@
 import React, { useEffect, useState } from 'react';
-import { Button } from '@chakra-ui/button';
-import { useDisclosure } from '@chakra-ui/hooks';
-import { Flex, Heading, Spacer } from '@chakra-ui/layout';
 import { useDispatch, useSelector } from 'react-redux';
-import FormModal from './FormModal';
-import TableBase from './TableBase';
-import { getPertemuanByMatkul } from '../redux/actions/pertemuanAction';
 import { useParams } from 'react-router';
+import {
+  Button,
+  Tbody,
+  Td,
+  Tr,
+  Flex,
+  Heading,
+  Spacer,
+  useDisclosure,
+} from '@chakra-ui/react';
 import { useTable, useSortBy } from 'react-table';
-import { Tbody, Td, Tr } from '@chakra-ui/table';
 
-import { getMatkulByID } from '../redux/actions/matkulAction';
+import { getMatkulByID } from '../../redux/actions/matkulAction';
+import { getPertemuanByMatkul } from '../../redux/actions/pertemuanAction';
+
+import TableBase from './TableBase';
+// import FormModal from './MatkulModalForm';
 
 export default function PertemuanTable() {
-  const dispatch = useDispatch()
-  const {matkulId} = useParams()
+  const dispatch = useDispatch();
+  const { matkulId } = useParams();
 
   const pertemuan = useSelector(
     state => state.pertemuanReducer.pertemuanByMatkul
@@ -24,6 +31,8 @@ export default function PertemuanTable() {
   const { isOpen, onOpen, onClose } = useDisclosure();
   const [columns] = useState([
     { Header: 'Nama', accessor: 'nama' },
+    { Header: 'Jadwal', accessor: 'jadwal' },
+    { Header: 'Opsi', accessor: 'opsi' },
   ]);
   const {
     getTableProps,
@@ -40,11 +49,15 @@ export default function PertemuanTable() {
   );
   const firstPageRows = rows.slice(0, 20);
 
-
   useEffect(() => {
-    dispatch(getPertemuanByMatkul(matkulId))
+    dispatch(getPertemuanByMatkul(matkulId));
     dispatch(getMatkulByID(matkulId));
-  }, [dispatch])
+  }, [dispatch, matkulId]);
+
+  const editHandler = pertemuan => {
+    // console.log(matkul);
+    // history.push(`${url}/${matkul._id}`);
+  };
 
   return (
     <>
@@ -54,10 +67,10 @@ export default function PertemuanTable() {
         <Button colorScheme="blue" size="sm" onClick={onOpen}>
           + Pertemuan
         </Button>
-        <FormModal isOpen={isOpen} onClose={onClose} />
+        {/* <FormModal isOpen={isOpen} onClose={onClose} /> */}
       </Flex>
-      
-      <TableBase tableHead={{headers, getTableProps}}>
+
+      <TableBase tableHead={{ headers, getTableProps }}>
         <Tbody {...getTableBodyProps()}>
           {firstPageRows.map(row => {
             prepareRow(row);
@@ -67,14 +80,14 @@ export default function PertemuanTable() {
                   if (cell.column.Header === 'Opsi') {
                     // console.log(cell.getCellProps());
                     return (
-                      <Td {...cell.getCellProps()} p="1">
+                      <Td {...cell.getCellProps()} pt="1" pb="1">
                         <Button
                           colorScheme="blue"
                           variant="outline"
                           size="xs"
-                          // onClick={() => lihatPertemuan(cell.row.original)}
+                          onClick={() => editHandler(cell.row.original)}
                         >
-                          Pertemuan
+                          Edit
                         </Button>
                       </Td>
                     );

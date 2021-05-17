@@ -1,7 +1,7 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useTable, useSortBy } from 'react-table';
 import { useHistory, useRouteMatch } from 'react-router';
-import { useSelector } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import {
   Button,
   Flex,
@@ -13,14 +13,18 @@ import {
   useDisclosure,
 } from '@chakra-ui/react';
 
-import FormModal from './FormModal';
+import { getAllMatkul } from '../../redux/actions/matkulAction';
+
+import FormModal from './MatkulModalForm';
 import TableBase from './TableBase';
 
 export default function MatkulTable() {
   const history = useHistory();
+  const dispatch = useDispatch()
   const { path, url } = useRouteMatch();
-  const { allMatkul } = useSelector(state => state.matkulReducer);
+  const { allMatkul, matkul } = useSelector(state => state.matkulReducer);
   const { isOpen, onOpen, onClose } = useDisclosure();
+  const [data, setData] = useState({});
 
   const [columns] = useState([
     { Header: 'Kode', accessor: 'kode' },
@@ -51,21 +55,33 @@ export default function MatkulTable() {
     history.push(`${url}/${matkul._id}`);
   };
 
+  const editHandler = matkul => {
+    setData(matkul);
+    onOpen();
+  };
+
+  console.log(matkul);
+
+  useEffect(() => {
+    dispatch(getAllMatkul());
+  }, [dispatch, matkul])
+
   return (
     <>
       <Flex alignItems="center" p="4">
         <Heading size="xs">Matkul</Heading>
         <Spacer />
-        <Button colorScheme="blue" size="sm" onClick={onOpen}>
+        <Button colorScheme="blue" size="sm" onClick={() => {setData({}); onOpen()}}>
           + Matkul
         </Button>
-        <FormModal isOpen={isOpen} onClose={onClose} />
+        <FormModal isOpen={isOpen} onClose={onClose} data={data} />
       </Flex>
 
       <TableBase tableHead={{ headers, getTableProps }}>
         <Tbody {...getTableBodyProps()}>
           {firstPageRows.map(row => {
             prepareRow(row);
+            // console.log(row);
             return (
               <Tr {...row.getRowProps()}>
                 {row.cells.map(cell => {
@@ -77,15 +93,19 @@ export default function MatkulTable() {
                           colorScheme="blue"
                           variant="outline"
                           size="xs"
-                          onClick={() => lihatPertemuan(cell.row.original)}
+                          onClick={() => editHandler(cell.row.original)}
                         >
-                          Pertemuan
+                          Ubah
                         </Button>
                       </Td>
                     );
                   }
                   return (
-                    <Td {...cell.getCellProps()} fontSize="xs">
+                    <Td
+                      {...cell.getCellProps()}
+                      fontSize="xs"
+                      onClick={() => lihatPertemuan(row.original)}
+                    >
                       {cell.render('Cell')}
                     </Td>
                   );

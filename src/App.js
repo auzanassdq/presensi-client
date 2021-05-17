@@ -7,7 +7,7 @@ import ListMatkul from './components/ListMatkul';
 import Matkul from './components/Matkul';
 import Login from './components/Login';
 import Navbar from './components/Navbar';
-import AdminDashboard from './components/AdminDashboard';
+import AdminDashboard from './components/admin/AdminDashboard';
 import { NotFound404Page } from './pages/NotFound404Page';
 
 function Home({ isLogin, userId }) {

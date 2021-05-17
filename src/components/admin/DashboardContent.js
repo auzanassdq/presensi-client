@@ -3,7 +3,7 @@ import { Box, Heading, useColorModeValue } from '@chakra-ui/react';
 import { Route, Switch, useParams, useRouteMatch } from 'react-router';
 import { useDispatch, useSelector } from 'react-redux';
 
-import { getAllMatkul } from '../redux/actions/matkulAction';
+import { getAllMatkul } from '../../redux/actions/matkulAction';
 
 import MatkulTable from './MatkulTable';
 import PertemuanTable from './PertemuanTable';
@@ -16,7 +16,7 @@ export default function DashboardContent({ dashboardURL }) {
 
   const dispatch = useDispatch();
   const boxGray = useColorModeValue('gray.200', 'gray.700');
-  const { allMatkul, matkul } = useSelector(state => state.matkulReducer);
+  // const { allMatkul, matkul } = useSelector(state => state.matkulReducer);
 
   useEffect(() => {
     switch (content) {
@@ -24,12 +24,12 @@ export default function DashboardContent({ dashboardURL }) {
         // dispatch(getDosen())
         break;
       case 'matkul':
-        dispatch(getAllMatkul());
+        
         break;
       default:
         break;
     }
-  }, [dispatch, content, matkul]);
+  }, [dispatch, content]);
 
   return (
     <Box rounded={5} bg={boxGray} h="600px" w="100%" ml="0px">
