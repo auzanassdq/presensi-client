@@ -5,26 +5,31 @@ import { logout } from '../redux/actions/userAction';
 
 function Navbar() {
   const dispatch = useDispatch();
-  const { isLogin } = useSelector(state => state.userReducer);
+  const { isLogin, userId } = useSelector(state => state.userReducer);
 
   const handleLogout = () => {
     dispatch(logout());
   };
 
   return (
-    <Flex p="2">
+    <Flex pt="4" pb="4" alignItems="center">
       <Center>
-        <Heading size="md">PRESENSI</Heading>
+        <Heading size="lg">PRESENSI</Heading>
       </Center>
       <Spacer />
+      {isLogin && userId != 'admin' && (
+        <Button variant="link" size="sm" mr="2" onClick={handleLogout}>
+          Daftar Matkul
+        </Button>
+      )}
+      {/* <Box> */}
+      <ColorModeSwitcher />
       {isLogin && (
-        <Button variant="outline" size="xs" onClick={handleLogout}>
+        <Button variant="outline" size="sm" ml="2" onClick={handleLogout}>
           Keluar
         </Button>
       )}
-      <Box>
-        <ColorModeSwitcher justifySelf="flex-end" />
-      </Box>
+      {/* </Box> */}
     </Flex>
   );
 }
