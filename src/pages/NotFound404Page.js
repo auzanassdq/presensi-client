@@ -1,4 +1,4 @@
-import { Center, Flex, Heading, Stack } from '@chakra-ui/layout';
+import { Center, Flex, Heading } from '@chakra-ui/layout';
 
 export function NotFound404Page() {
   return (
