@@ -17,7 +17,7 @@ const apiRequest = () => {
 
 export const requestFail = () => {
   return {
-    type: API_REQUEST,
+    type: REQUEST_FAIL,
   };
 };
 
@@ -112,11 +112,11 @@ export const createMatkul = data => async dispatch => {
 
   if (!result.data) {
     dispatch(requestFail());
-    throw new Error("No");
+    throw new Error('No');
   }
 
   dispatch(createMatkulSuccess(result.data.data));
-  return
+  return;
 };
 
 export const editMatkul = (data, matkulId) => async dispatch => {
@@ -131,9 +131,9 @@ export const editMatkul = (data, matkulId) => async dispatch => {
 
   if (!result.data) {
     dispatch(requestFail());
-    throw new Error("No");
+    throw new Error('No');
   }
-  
+
   dispatch(reqMatkulSuccess(result.data.data));
-  return
+  return;
 };
