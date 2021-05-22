@@ -11,7 +11,7 @@ export default function AdminDashboard() {
   return (
     <Flex direction="row">
       <VStack
-        pl="2"
+        // pl="2"
         mr="30px"
         mb="auto"
         display={['none', 'none', 'flex', 'flex']}
