@@ -1,5 +1,7 @@
 import {
   API_REQUEST,
+  REQUEST_FAIL,
+  REQUEST_PERTEMUAN_SUCCESS,
   GET_PERTEMUAN_SUCCESS,
   GET_PERTEMUAN_MATKUL_SUCCESS,
 } from '../actions/pertemuanAction';
@@ -16,6 +18,17 @@ const pertemuanReducer = (state = initialState, action) => {
       return {
         ...state,
         isLoading: true,
+      };
+    case REQUEST_FAIL:
+      return {
+        ...state,
+        isLoading: false,
+      };
+    case REQUEST_PERTEMUAN_SUCCESS:
+      return {
+        ...state,
+        isLoading: false,
+        pertemuan: action.payload,
       };
     case GET_PERTEMUAN_SUCCESS:
       return {

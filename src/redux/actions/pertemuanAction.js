@@ -2,12 +2,27 @@ import axios from 'axios';
 import { authHeader } from '../../utilities';
 
 export const API_REQUEST = 'API_REQUEST';
+export const REQUEST_FAIL = 'REQUEST_FAIL';
+export const REQUEST_PERTEMUAN_SUCCESS = "REQUEST_PERTEMUAN_SUCCESS"
 export const GET_PERTEMUAN_SUCCESS = 'GET_PERTEMUAN_SUCCESS';
 export const GET_PERTEMUAN_MATKUL_SUCCESS = 'GET_PERTEMUAN_MATKUL_SUCCESS';
 
 const apiRequest = () => {
   return {
     type: API_REQUEST,
+  };
+};
+
+export const reqPertemuanSuccess = payload => {
+  return {
+    type: REQUEST_PERTEMUAN_SUCCESS,
+    payload,
+  };
+};
+
+export const requestFail = () => {
+  return {
+    type: REQUEST_FAIL,
   };
 };
 
@@ -46,4 +61,43 @@ export const getPertemuanByMatkul = (matkulId, mahasiswaId) => async dispatch =>
     headers: authHeader(),
   });
   dispatch(getPertemuanMatkulSuccess(result.data.data, mahasiswaId));
+};
+
+export const createPertemuan = data => async dispatch => {
+  dispatch(apiRequest());
+  console.log("tes");
+
+  let result = await axios({
+    method: 'post',
+    url: `${process.env.REACT_APP_API}/pertemuan`,
+    headers: authHeader(),
+    data,
+  });
+
+  if (!result.data) {
+    dispatch(requestFail());
+    throw new Error("No");
+  }
+
+  dispatch(reqPertemuanSuccess(result.data.data));
+  return
+};
+
+export const editPertemuan = (data, pertemuanId) => async dispatch => {
+  dispatch(apiRequest());
+
+  let result = await axios({
+    method: 'put',
+    url: `${process.env.REACT_APP_API}/pertemuan/${pertemuanId}`,
+    headers: authHeader(),
+    data,
+  });
+
+  if (!result.data) {
+    dispatch(requestFail());
+    throw new Error("No");
+  }
+  
+  dispatch(reqPertemuanSuccess(result.data.data));
+  return
 };
