@@ -20,12 +20,7 @@ import {
 } from '@chakra-ui/react';
 import 'react-datepicker/dist/react-datepicker.css';
 
-import {
-  createMatkul,
-  editMatkul,
-  reqMatkulSuccess,
-  requestFail,
-} from '../../redux/actions/matkulAction';
+import { createMatkul, editMatkul } from '../../../redux/actions/matkulAction';
 
 const StyledaDatepicker = chakra(DatePicker);
 
