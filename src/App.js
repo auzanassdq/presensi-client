@@ -7,9 +7,9 @@ import MyDashboard from './components/MyDashboard';
 import Matkul from './components/Matkul';
 import Login from './components/Login';
 import Navbar from './components/Navbar';
+import CariMatkul from './components/CariMatkul';
 import AdminDashboard from './components/admin/AdminDashboard';
 import { NotFound404Page } from './pages/NotFound404Page';
-import ListMatkul from './components/ListMatkul';
 
 function Home({ isLogin, userId }) {
   if (isLogin) {
@@ -38,7 +38,7 @@ function App() {
             {isLogin ? <AdminDashboard /> : <Redirect to="/" />}
           </Route>
           <Route exact path="/matkul/">
-            {isLogin ? <ListMatkul /> : <Redirect to="/" />}
+            {isLogin ? <CariMatkul /> : <Redirect to="/" />}
           </Route>
           <Route path="/matkul/:idMatkul">
             {isLogin ? <Matkul /> : <Redirect to="/" />}
