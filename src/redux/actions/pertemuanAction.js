@@ -6,6 +6,8 @@ export const REQUEST_FAIL = 'REQUEST_FAIL';
 export const REQUEST_PERTEMUAN_SUCCESS = "REQUEST_PERTEMUAN_SUCCESS"
 export const GET_PERTEMUAN_SUCCESS = 'GET_PERTEMUAN_SUCCESS';
 export const GET_PERTEMUAN_MATKUL_SUCCESS = 'GET_PERTEMUAN_MATKUL_SUCCESS';
+export const GET_PERTEMUAN_UPCOMING_SUCCESS = "GET_PERTEMUAN_UPCOMING_SUCCESS"
+export const GET_PERTEMUAN_CURRENT_SUCCESS = "GET_PERTEMUAN_CURRENT_SUCCESS"
 
 const apiRequest = () => {
   return {
@@ -33,6 +35,20 @@ const getPertemuanSuccess = payload => {
   };
 };
 
+const getPertemuanUpcomingSuccess = payload => {
+  return {
+    type: GET_PERTEMUAN_UPCOMING_SUCCESS,
+    payload,
+  };
+}
+
+const getPertemuanCurrentSuccess = payload => {
+  return {
+    type: GET_PERTEMUAN_CURRENT_SUCCESS,
+    payload,
+  };
+}
+
 const getPertemuanMatkulSuccess = (payload, mahasiswaId) => {
   return {
     type: GET_PERTEMUAN_MATKUL_SUCCESS,
@@ -40,6 +56,42 @@ const getPertemuanMatkulSuccess = (payload, mahasiswaId) => {
     mahasiswaId
   };
 };
+
+export const getPertemuanCurrent = (mahasiswaId) => async dispatch => {
+    dispatch(apiRequest());
+  
+    let result = await axios({
+      method: 'get',
+      url: `${process.env.REACT_APP_API}/pertemuan/current/${mahasiswaId}`,
+      headers: authHeader(),
+    });
+
+    if (!result.data) {
+      dispatch(requestFail());
+      throw new Error('No');
+    }
+  
+    dispatch(getPertemuanCurrentSuccess(result.data.data));
+    return;
+}
+
+export const getPertemuanUpcoming = (mahasiswaId) => async dispatch => {
+  dispatch(apiRequest());
+
+  let result = await axios({
+    method: 'get',
+    url: `${process.env.REACT_APP_API}/pertemuan/upcoming/${mahasiswaId}`,
+    headers: authHeader(),
+  });
+
+  if (!result.data) {
+    dispatch(requestFail());
+    throw new Error('No');
+  }
+
+  dispatch(getPertemuanUpcomingSuccess(result.data.data));
+  // return;
+}
 
 export const getPertemuanByID = pertemuanId => async dispatch => {
   dispatch(apiRequest());
