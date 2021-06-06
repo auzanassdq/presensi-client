@@ -1,4 +1,3 @@
-import React from 'react';
 import { List, VStack, Flex, Heading } from '@chakra-ui/react';
 import { Link, Route, Switch, useRouteMatch } from 'react-router-dom';
 
@@ -10,18 +9,16 @@ export default function AdminDashboard() {
 
   return (
     <Flex direction="row">
-      <VStack
-        // pl="2"
-        mr="30px"
-        mb="auto"
-        display={['none', 'none', 'flex', 'flex']}
-      >
+      <VStack mr="30px" mb="auto" display={['none', 'none', 'flex', 'flex']}>
         <List spacing={5}>
           <Link to={`/dashboard`}>
             <MenuItem text="Home" />
           </Link>
           <Link to={`${path}/dosen`}>
             <MenuItem text="Dosen" />
+          </Link>
+          <Link to={`${path}/mahasiswa`}>
+            <MenuItem text="Mahasiswa" />
           </Link>
           <Link to={`${path}/matkul`}>
             <MenuItem text="Matkul" />
