@@ -16,11 +16,13 @@ const initialState = user._id
       isLoading: false,
       isLogin: true,
       userId: user._id,
+      nama: user.nama ? user.nama : "admin",
     }
   : {
       isLoading: false,
       isLogin: false,
       userId: '',
+      nama: ''
     };
 
 const userReducer = (state = initialState, action) => {
