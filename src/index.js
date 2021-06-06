@@ -10,6 +10,10 @@ import * as serviceWorker from './serviceWorker';
 
 import store from './redux/store';
 
+import moment from 'moment';
+import 'moment/locale/id'; // without this line it didn't work
+moment.locale('id');
+
 ReactDOM.render(
   <StrictMode>
     <Provider store={store}>
