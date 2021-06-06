@@ -70,10 +70,13 @@ export const getMatkulByID = idMatkul => async dispatch => {
   }
 };
 
-export const getAllMatkul = () => async dispatch => {
+export const getAllMatkul = matkul => async dispatch => {
   dispatch(apiRequest());
+  let url = `${process.env.REACT_APP_API}/matkul`;
 
-  let result = await axios.get(process.env.REACT_APP_API + '/matkul', {
+  if (matkul) url += `/?matkul=${matkul}`;
+
+  let result = await axios.get(url, {
     headers: authHeader(),
   });
   // console.log(result);
@@ -137,3 +140,43 @@ export const editMatkul = (data, matkulId) => async dispatch => {
   dispatch(reqMatkulSuccess(result.data.data));
   return;
 };
+
+export const cekAmbilMatkul = data => async dispatch => {
+  console.log(data);
+
+  let result = await axios({
+    method: 'get',
+    url: `${process.env.REACT_APP_API}/ambil-matkul/check/?matkul=${data.matkul}&mahasiswa=${data.mahasiswa}`,
+    headers: authHeader(),
+  });
+
+  return result
+};
+
+export const ambilMatkul = data => async dispatch => {
+  let url = `${process.env.REACT_APP_API}/ambil-matkul`;
+  console.log(data);
+
+  let result = await axios({
+    method: 'post',
+    url,
+    headers: authHeader(),
+    data,
+  });
+
+  return result;
+};
+
+export const removeAmbilKelas = data => async dispatch => {
+  let url = `${process.env.REACT_APP_API}/ambil-matkul`;
+  console.log(data);
+
+  let result = await axios({
+    method: 'delete',
+    url,
+    headers: authHeader(),
+    data,
+  });
+
+  return result;
+}
