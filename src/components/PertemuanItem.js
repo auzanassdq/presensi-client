@@ -16,14 +16,20 @@ import { CheckIcon, CloseIcon, MinusIcon } from '@chakra-ui/icons';
 
 import ScanModal from './ScanModal';
 import Color from '../utilities/Color';
+import { useDispatch } from 'react-redux';
 
-export default function PertemuanItem({ pertemuan, lastItem }) {
+import {setPertemuanItem} from '../redux/actions/pertemuanAction'
+
+export default function PertemuanItem({ pertemuan, lastItem, onOpen }) {
   const toast = useToast();
+  const dispatch = useDispatch()
 
-  const { isOpen, onOpen, onClose } = useDisclosure();
+  // const { isOpen, onOpen, onClose } = useDisclosure();
 
-  const handleMatkul = item => {
-    let jadwalPertemuan = new Date(item.jadwal).getTime();
+  const handleMatkul = () => {
+    dispatch(setPertemuanItem(pertemuan))
+
+    let jadwalPertemuan = new Date(pertemuan.jadwal).getTime();
     let batasHadir = jadwalPertemuan + 1800000;
 
     if (Date.now() < jadwalPertemuan) {
@@ -54,9 +60,10 @@ export default function PertemuanItem({ pertemuan, lastItem }) {
       w="xs"
       rounded={5}
       overflow="hidden"
-      onClick={() => handleMatkul(pertemuan)}
+      // onClick={() => handleMatkul(pertemuan)}
+      onClick={handleMatkul}
     >
-      <ScanModal isOpen={isOpen} onClose={onClose} pertemuan={pertemuan} />
+      {/* <ScanModal isOpen={isOpen} onClose={onClose} pertemuan={pertemuan} /> */}
       <Flex direction="row">
         <Flex direction="column" spacing="0">
           {new Date(pertemuan.jadwal).getTime() > Date.now() ? (
