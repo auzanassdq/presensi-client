@@ -34,6 +34,7 @@ import {
   cekAmbilMatkul,
   ambilMatkul,
 } from '../redux/actions/matkulAction';
+import ModalAdd from './ModalAdd';
 
 function CariMatkul() {
   const [state, setstate] = useState('');
@@ -139,25 +140,15 @@ function CariMatkul() {
         </Box>
       ))}
 
-      <Modal isOpen={isOpen} onClose={onClose}>
-        <ModalOverlay />
-        <ModalContent>
-          <ModalHeader>Ambil Kelas</ModalHeader>
-          <ModalCloseButton />
-          <ModalBody>
-            <Text>Ingin bergabung ke dalam kelas ini?</Text>
-          </ModalBody>
-
-          <ModalFooter>
-            <Button colorScheme="blue" mr={3} onClick={handleAmbilMatkul}>
-              Enroll
-            </Button>
-            <Button variant="ghost" onClick={onClose}>
-              Batal
-            </Button>
-          </ModalFooter>
-        </ModalContent>
-      </Modal>
+      <ModalAdd
+        isOpen={isOpen}
+        onClose={onClose}
+        title="Ambil Matkul"
+        txtButton="Enroll"
+        handleSubmit={handleAmbilMatkul}
+      > 
+        <Text>Ingin bergabung ke dalam kelas ini?</Text>
+      </ModalAdd>
     </VStack>
     // </Stack>
   );
