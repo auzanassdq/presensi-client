@@ -1,6 +1,5 @@
 import { Box, Heading, useColorModeValue } from '@chakra-ui/react';
 import { Route, Switch, useParams, useRouteMatch } from 'react-router';
-import { useDispatch } from 'react-redux';
 
 import MatkulTable from './matkul/MatkulTable';
 import PertemuanTable from './pertemuan/PertemuanTable';
@@ -11,7 +10,6 @@ export default function DashboardContent({ dashboardURL }) {
   const { content } = useParams();
   let { path } = useRouteMatch();
 
-  const dispatch = useDispatch();
   const boxGray = useColorModeValue('gray.200', 'gray.700');
 
   return (
@@ -37,5 +35,7 @@ function ContentSwitcher({ content }) {
       return <DosenTable />;
     case 'mahasiswa':
       return <MahasiswaTable />;
+    default:
+      break;
   }
 }
