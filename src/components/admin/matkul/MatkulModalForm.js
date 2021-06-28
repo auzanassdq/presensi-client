@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import DatePicker from 'react-datepicker';
 import {
   Box,
@@ -17,15 +17,19 @@ import {
   ModalHeader,
   ModalOverlay,
   useToast,
+  FormLabel,
+  Select,
 } from '@chakra-ui/react';
 import 'react-datepicker/dist/react-datepicker.css';
 
 import { createMatkul, editMatkul } from '../../../redux/actions/matkulAction';
+import { getAllDosen } from '../../../redux/actions/dosenAction';
 
 const StyledaDatepicker = chakra(DatePicker);
 
 export default function FormModal({ isOpen, onClose, data }) {
   const dispatch = useDispatch();
+  const { allDosen } = useSelector(state => state.dosenReducer);
 
   const toast = useToast();
   const [startDate, setStartDate] = useState();
@@ -33,15 +37,21 @@ export default function FormModal({ isOpen, onClose, data }) {
   const [matkulInput, setMatkulInput] = useState({
     kode: '',
     nama: '',
+    dosen: '',
     sks: '',
     semester: '',
   });
 
   useEffect(() => {
+    dispatch(getAllDosen());
+
+    console.log(data);
+
     if (data.kode) {
       setMatkulInput({
         kode: data.kode,
         nama: data.nama,
+        dosen: data.dosen._id,
         sks: data.sks,
         semester: data.semester,
       });
@@ -52,6 +62,7 @@ export default function FormModal({ isOpen, onClose, data }) {
       setMatkulInput({
         kode: '',
         nama: '',
+        dosen: '',
         sks: '',
         semester: '',
       });
@@ -77,6 +88,8 @@ export default function FormModal({ isOpen, onClose, data }) {
       ...matkulInput,
       jadwal: startDate,
     };
+
+    console.log(newData);
 
     if (data) {
       dispatch(editMatkul(newData, data._id))
@@ -129,6 +142,7 @@ export default function FormModal({ isOpen, onClose, data }) {
         <ModalCloseButton />
         <ModalBody pb={6}>
           <FormControl>
+            <FormLabel>Kode</FormLabel>
             <Input
               variant="filled"
               placeholder="Kode Matkul"
@@ -139,6 +153,7 @@ export default function FormModal({ isOpen, onClose, data }) {
           </FormControl>
 
           <FormControl mt={4}>
+            <FormLabel>Nama</FormLabel>
             <Input
               variant="filled"
               placeholder="Nama Matkul"
@@ -146,11 +161,20 @@ export default function FormModal({ isOpen, onClose, data }) {
               value={matkulInput.nama}
               onChange={handleChange}
             />
-            {/* <FormLabel>Nama Matkul</FormLabel> */}
           </FormControl>
 
           <FormControl mt={4}>
-            {/* <FormLabel>Jumlah SKS</FormLabel> */}
+            <FormLabel>Dosen</FormLabel>
+            <Select name="dosen" placeholder="Dosen" variant="filled" value={matkulInput.dosen}
+              onChange={handleChange}>
+              {allDosen.map(item => (
+                <option value={item._id}>{item.nama}</option>
+              ))}
+            </Select>
+          </FormControl>
+
+          <FormControl mt={4}>
+            <FormLabel>SKS</FormLabel>
             <NumberInput variant="filled" value={matkulInput.sks}>
               <NumberInputField
                 placeholder="jumlah sks"
@@ -161,7 +185,7 @@ export default function FormModal({ isOpen, onClose, data }) {
           </FormControl>
 
           <FormControl mt={4}>
-            {/* <FormLabel>Semester</FormLabel> */}
+            <FormLabel>Semester</FormLabel>
             <NumberInput variant="filled" value={matkulInput.semester}>
               <NumberInputField
                 placeholder="semester"
@@ -172,6 +196,8 @@ export default function FormModal({ isOpen, onClose, data }) {
           </FormControl>
 
           <FormControl mt={4}>
+            <FormLabel>Jadwal</FormLabel>
+
             <Box>
               <StyledaDatepicker
                 w="100%"

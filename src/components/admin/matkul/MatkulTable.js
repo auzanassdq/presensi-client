@@ -43,6 +43,7 @@ export default function MatkulTable() {
   const [columns] = useState([
     { Header: 'Kode', accessor: 'kode' },
     { Header: 'Nama', accessor: 'nama' },
+    { Header: 'Dosen', accessor: 'dosen' },
     { Header: 'Jadwal', accessor: 'jadwal' },
     { Header: 'SKS', accessor: 'sks' },
     { Header: 'Semester', accessor: 'semester' },
@@ -78,6 +79,8 @@ export default function MatkulTable() {
   useEffect(() => {
     dispatch(getAllMatkul());
   }, [dispatch, matkul]);
+
+
 
   return (
     <>
@@ -143,7 +146,7 @@ export default function MatkulTable() {
                           fontSize="sm"
                           onClick={() => lihatPertemuan(row.original)}
                         >
-                          {cell.render('Cell')}
+                          {cell.value.nama || cell.value}
                         </Td>
                       );
                   }
