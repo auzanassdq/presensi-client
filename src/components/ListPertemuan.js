@@ -5,7 +5,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { getPertemuanByMatkul } from '../redux/actions/pertemuanAction';
 import PertemuanItem from './PertemuanItem';
 
-export default function ListPertemuan({ matkulId }) {
+export default function ListPertemuan({ matkulId, onOpen }) {
   const dispatch = useDispatch();
 
   const pertemuan = useSelector(
@@ -26,6 +26,7 @@ export default function ListPertemuan({ matkulId }) {
           <PertemuanItem
             key={index}
             pertemuan={item}
+            onOpen={onOpen}
             lastItem={pertemuan.length - 1 === index ? true : false}
           />
         ))}
