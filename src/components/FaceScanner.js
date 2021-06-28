@@ -106,40 +106,40 @@ function FaceScanner() {
     console.log("IMAGE", image.dataSync());
 
     // blazeface
-    // const ctx = document.getElementById("canvas").getContext('2d');
-    // const blazeModel = await blazeface.load();
-    // const blazePredict = await blazeModel.estimateFaces(image, false);
-    // console.log(blazePredict)
+    const ctx = document.getElementById("canvas").getContext('2d');
+    const blazeModel = await blazeface.load();
+    const blazePredict = await blazeModel.estimateFaces(image, false);
+    console.log(blazePredict)
 
-    // ctx.drawImage(img, 0, 0, 224, 224)
+    ctx.drawImage(img, 0, 0, 224, 224)
 
-    // blazePredict.forEach(async (item) => {
-    //   ctx.beginPath()
-    //   ctx.lineWidth = "4"
-    //   ctx.strokeStyle = "blue"
-    //   ctx.rect(
-    //     item.topLeft[0],
-    //     item.topLeft[1],
-    //     item.bottomRight[0] - item.topLeft[0],
-    //     item.bottomRight[1] - item.topLeft[1]
-    //   )
-    //   ctx.stroke()
+    blazePredict.forEach(async (item) => {
+      ctx.beginPath()
+      ctx.lineWidth = "4"
+      ctx.strokeStyle = "blue"
+      ctx.rect(
+        item.topLeft[0],
+        item.topLeft[1],
+        item.bottomRight[0] - item.topLeft[0],
+        item.bottomRight[1] - item.topLeft[1]
+      )
+      ctx.stroke()
 
-    //   console.log(item.topLeft[0]);
-    //   console.log(item.topLeft[1]);
-    //   console.log(item.bottomRight[0] - item.topLeft[0]);
-    //   console.log(item.bottomRight[1] - item.topLeft[1]);
+      console.log(item.topLeft[0]);
+      console.log(item.topLeft[1]);
+      console.log(item.bottomRight[0] - item.topLeft[0]);
+      console.log(item.bottomRight[1] - item.topLeft[1]);
 
-    //   let width = parseInt((item.bottomRight[1] - item.topLeft[1]))
-    //   let height = parseInt((item.bottomRight[0] - item.topLeft[0]))
-    //   let faceTensor = image.slice([parseInt(item.topLeft[1]),parseInt(item.topLeft[0]),0],[width,height,3])
-    //   faceTensor = faceTensor.resizeBilinear([224,224]).reshape([1,224,224,3])
-    //   console.log(faceTensor);
-    //   let result = await model.predict(faceTensor)
-    //   let predictClass = result.argMax(1).dataSync();
+      let width = parseInt((item.bottomRight[1] - item.topLeft[1]))
+      let height = parseInt((item.bottomRight[0] - item.topLeft[0]))
+      let faceTensor = image.slice([parseInt(item.topLeft[1]),parseInt(item.topLeft[0]),0],[width,height,3])
+      faceTensor = faceTensor.resizeBilinear([224,224]).reshape([1,224,224,3])
+      console.log(faceTensor);
+      let result = await model.predict(faceTensor)
+      let predictClass = result.argMax(1).dataSync();
 
-    //   console.log(predictClass)
-    // })
+      console.log(predictClass)
+    })
 
     let offset = tf.scalar(127.5);
     image = image.sub(offset).div(offset).expandDims()
