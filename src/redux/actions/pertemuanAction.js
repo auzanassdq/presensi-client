@@ -3,11 +3,19 @@ import { authHeader } from '../../utilities';
 
 export const API_REQUEST = 'API_REQUEST';
 export const REQUEST_FAIL = 'REQUEST_FAIL';
+export const SET_PERTEMUAN_ITEM = 'SET_PERTEMUAN_ITEM';
 export const REQUEST_PERTEMUAN_SUCCESS = "REQUEST_PERTEMUAN_SUCCESS"
 export const GET_PERTEMUAN_SUCCESS = 'GET_PERTEMUAN_SUCCESS';
 export const GET_PERTEMUAN_MATKUL_SUCCESS = 'GET_PERTEMUAN_MATKUL_SUCCESS';
 export const GET_PERTEMUAN_UPCOMING_SUCCESS = "GET_PERTEMUAN_UPCOMING_SUCCESS"
 export const GET_PERTEMUAN_CURRENT_SUCCESS = "GET_PERTEMUAN_CURRENT_SUCCESS"
+
+export const setPertemuanItem = (payload) => {
+  return {
+    type: SET_PERTEMUAN_ITEM,
+    payload
+  };
+}
 
 const apiRequest = () => {
   return {

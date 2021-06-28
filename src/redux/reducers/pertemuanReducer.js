@@ -1,4 +1,5 @@
 import {
+  SET_PERTEMUAN_ITEM,
   API_REQUEST,
   REQUEST_FAIL,
   REQUEST_PERTEMUAN_SUCCESS,
@@ -56,16 +57,21 @@ const pertemuanReducer = (state = initialState, action) => {
         isLoading: false,
         pertemuanByMatkul: data,
       };
-    case GET_PERTEMUAN_CURRENT_SUCCESS: 
+    case GET_PERTEMUAN_CURRENT_SUCCESS:
       return {
         ...state,
-        pertemuanCurrent: action.payload
-      }
-      case GET_PERTEMUAN_UPCOMING_SUCCESS: 
+        pertemuanCurrent: action.payload,
+      };
+    case GET_PERTEMUAN_UPCOMING_SUCCESS:
       return {
         ...state,
-        pertemuanUpcoming: action.payload
-      }
+        pertemuanUpcoming: action.payload,
+      };
+    case SET_PERTEMUAN_ITEM:
+      return {
+        ...state,
+        pertemuan: action.payload,
+      };
     default:
       return state;
   }
