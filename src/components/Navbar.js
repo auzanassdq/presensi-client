@@ -6,6 +6,7 @@ import {
   Box,
   Center,
   Button,
+  Icon,
   Menu,
   MenuButton,
   IconButton,
@@ -15,6 +16,7 @@ import {
 } from '@chakra-ui/react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useHistory } from 'react-router';
+import { BiUser } from 'react-icons/bi';
 
 import { ColorModeSwitcher } from '../ColorModeSwitcher';
 import { logout } from '../redux/actions/userAction';
@@ -36,7 +38,7 @@ function Navbar() {
         </Heading>
       </Center>
       <Spacer />
-      {isLogin && userId != 'admin' && (
+      {isLogin && userId !== 'admin' && (
         <Button
           variant="link"
           size="sm"
@@ -46,18 +48,16 @@ function Navbar() {
           Daftar Matkul
         </Button>
       )}
-      {/* <Box> */}
       <ColorModeSwitcher />
       {isLogin && (
-        // <Button borderRadius="full" variant="outline" size="sm" ml="2" onClick={handleLogout}>
-        //   Keluar
-        // </Button>
         <Menu>
           <MenuButton
             as={IconButton}
+            ml={2}
             aria-label="Options"
-            icon={<HamburgerIcon />}
+            icon={<Icon as={BiUser} />}
             variant="outline"
+            rounded="50%"
           />
           <MenuList>
             <MenuItem>{nama}</MenuItem>
@@ -68,7 +68,6 @@ function Navbar() {
           </MenuList>
         </Menu>
       )}
-      {/* </Box> */}
     </Flex>
   );
 }
