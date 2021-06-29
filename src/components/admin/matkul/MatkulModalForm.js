@@ -91,7 +91,7 @@ export default function FormModal({ isOpen, onClose, data }) {
 
     console.log(newData);
 
-    if (data) {
+    if (data.kode) {
       dispatch(editMatkul(newData, data._id))
         .then(result => {
           onClose();
