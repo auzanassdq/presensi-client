@@ -1,13 +1,9 @@
 import React, { useEffect, useState } from 'react';
 import { useDispatch } from 'react-redux';
 import {
-  Box,
   Button,
-  chakra,
   FormControl,
   Input,
-  NumberInput,
-  NumberInputField,
   Modal,
   ModalBody,
   ModalCloseButton,
@@ -24,7 +20,7 @@ export default function FormModal({ isOpen, onClose, data }) {
   const dispatch = useDispatch();
 
   const toast = useToast();
-  const [startDate, setStartDate] = useState();
+  // const [startDate, setStartDate] = useState();
 
   const [dosenInput, setDosenInput] = useState({
     nidn: '',

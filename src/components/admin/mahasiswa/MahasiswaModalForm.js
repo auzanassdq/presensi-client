@@ -1,13 +1,9 @@
 import React, { useEffect, useState } from 'react';
 import { useDispatch } from 'react-redux';
 import {
-  Box,
   Button,
-  chakra,
   FormControl,
   Input,
-  NumberInput,
-  NumberInputField,
   Modal,
   ModalBody,
   ModalCloseButton,
@@ -64,8 +60,8 @@ export default function FormModal({ isOpen, onClose, data }) {
     }
   }, [dispatch, data, isOpen]);
 
-  console.log(isOpen);
-  console.log(data);
+  // console.log(isOpen);
+  // console.log(data);
 
   const handleChange = e => {
     setMahasiswaInput({

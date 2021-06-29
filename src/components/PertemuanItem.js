@@ -8,17 +8,16 @@ import {
   ListItem,
   Spacer,
   Text,
-  useDisclosure,
-  useColorModeValue,
+  Icon,
   useToast,
 } from '@chakra-ui/react';
 import { CheckIcon, CloseIcon, MinusIcon } from '@chakra-ui/icons';
+import { IoMdQrScanner } from "react-icons/io"
 
-import ScanModal from './ScanModal';
 import Color from '../utilities/Color';
 import { useDispatch } from 'react-redux';
 
-import {setPertemuanItem} from '../redux/actions/pertemuanAction'
+import { setPertemuanItem } from '../redux/actions/pertemuanAction'
 
 export default function PertemuanItem({ pertemuan, lastItem, onOpen }) {
   const toast = useToast();
@@ -26,7 +25,7 @@ export default function PertemuanItem({ pertemuan, lastItem, onOpen }) {
 
   // const { isOpen, onOpen, onClose } = useDisclosure();
 
-  const handleMatkul = () => {
+  const handlePertemuan = () => {
     dispatch(setPertemuanItem(pertemuan))
 
     let jadwalPertemuan = new Date(pertemuan.jadwal).getTime();
@@ -36,6 +35,13 @@ export default function PertemuanItem({ pertemuan, lastItem, onOpen }) {
       console.log('belum waktunya');
       toast({
         title: 'Pertemuan belum dimulai',
+        status: 'info',
+        duration: 2000,
+        isClosable: true,
+      });
+    } else if (pertemuan.kehadiran.status) {
+      toast({
+        title: 'Anda Sudah CheckIn',
         status: 'info',
         duration: 2000,
         isClosable: true,
@@ -61,12 +67,12 @@ export default function PertemuanItem({ pertemuan, lastItem, onOpen }) {
       rounded={5}
       overflow="hidden"
       // onClick={() => handleMatkul(pertemuan)}
-      onClick={handleMatkul}
+      onClick={handlePertemuan}
     >
       {/* <ScanModal isOpen={isOpen} onClose={onClose} pertemuan={pertemuan} /> */}
       <Flex direction="row">
         <Flex direction="column" spacing="0">
-          {new Date(pertemuan.jadwal).getTime() > Date.now() ? (
+          {/* {new Date(pertemuan.jadwal).getTime() > Date.now() ? (
             <Circle size="40px" bg={Color().netralColor}>
               <MinusIcon color={Color().textNetralColor} />
             </Circle>
@@ -81,7 +87,8 @@ export default function PertemuanItem({ pertemuan, lastItem, onOpen }) {
                 <CloseIcon color={Color().textUnCheckColor} />
               )}
             </Circle>
-          )}
+          )} */}
+          <CircleKehadiran pertemuan={pertemuan} />
 
           {!lastItem && (
             <Center height="100px" size="10px">
@@ -108,4 +115,38 @@ export default function PertemuanItem({ pertemuan, lastItem, onOpen }) {
       </Flex>
     </ListItem>
   );
+}
+
+function CircleKehadiran({pertemuan}) {
+  let jadwalPertemuan = new Date(pertemuan.jadwal).getTime();
+  let batasHadir = jadwalPertemuan + 1800000;
+
+  if (Date.now() < jadwalPertemuan) {
+    return (
+      <Circle size="40px" bg={Color().netralColor}>
+        <MinusIcon color={Color().textNetralColor} />
+      </Circle>
+    )
+  }
+
+  if (Date.now() >= jadwalPertemuan && Date.now() <= batasHadir) {
+    return (
+      <Circle size="40px" bg={Color().netralColor}>
+        <Icon as={IoMdQrScanner} color={Color().textNetralColor} />
+      </Circle>
+    )
+  }
+
+  return (
+    <Circle
+      size="40px"
+      bg={pertemuan.kehadiran.status ? Color().checkColor : Color().unCheckColor}
+    >
+      {pertemuan.kehadiran.status ? (
+        <CheckIcon color={Color().textCheckColor} />
+      ) : (
+        <CloseIcon color={Color().textUnCheckColor} />
+      )}
+    </Circle>
+  )
 }

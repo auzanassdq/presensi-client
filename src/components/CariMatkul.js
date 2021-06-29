@@ -1,27 +1,13 @@
 import {
   Box,
-  Button,
-  Flex,
   Heading,
-  HStack,
   Input,
   InputGroup,
   InputLeftElement,
-  List,
-  ListItem,
-  Stack,
   Text,
   VStack,
   useToast,
   useDisclosure,
-  Modal,
-  ModalOverlay,
-  ModalContent,
-  ModalHeader,
-  ModalCloseButton,
-  ModalBody,
-  ModalFooter,
-  Circle,
   InputRightElement,
   IconButton,
 } from '@chakra-ui/react';
@@ -48,7 +34,7 @@ function CariMatkul() {
 
   useEffect(() => {
     dispatch(getAllMatkul(state));
-  }, [state]);
+  }, [dispatch, state]);
 
   console.log(allMatkul);
 

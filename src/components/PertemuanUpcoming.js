@@ -8,7 +8,6 @@ import {
   VStack,
   Flex,
   Text,
-  HStack,
   Center,
   Spacer,
   Tag,
@@ -23,6 +22,8 @@ export default function PertemuanUpcoming() {
 
   const { pertemuanUpcoming } = useSelector(state => state.pertemuanReducer);
   const { userId } = useSelector(state => state.userReducer);
+
+  console.log(pertemuanUpcoming);
 
   useEffect(() => {
     dispatch(getPertemuanUpcoming(userId));

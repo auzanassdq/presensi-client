@@ -10,6 +10,7 @@ const token = localStorage.getItem('token');
 let user = {};
 
 if (token) user = jwt.verify(token, 'secret');
+console.log(user);
 
 const initialState = user._id
   ? {
@@ -33,10 +34,13 @@ const userReducer = (state = initialState, action) => {
         isLoading: true,
       };
     case LOGIN_SUCCESS:
+      console.log(action.payload);
+      let user = jwt.verify(action.payload.token, 'secret');
       return {
         isLoading: false,
         isLogin: true,
-        userId: action.payload.userId,
+        userId: user._id,
+        nama: user.nama
       };
     case LOGIN_FAIL:
       return {

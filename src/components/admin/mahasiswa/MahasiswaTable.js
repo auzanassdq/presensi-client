@@ -11,7 +11,6 @@ import {
 } from '@chakra-ui/react';
 import React, { useEffect, useRef, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { useHistory, useRouteMatch } from 'react-router';
 import { useSortBy, useTable } from 'react-table';
 import { getAllMahasiswa } from '../../../redux/actions/mahasiswaAction';
 import AlertDelete from '../AlertDelete';
@@ -21,9 +20,10 @@ import TableBase from '../TableBase';
 import { DeleteIcon, EditIcon } from '@chakra-ui/icons';
 
 export default function MahasiswaTable() {
-  const history = useHistory();
   const dispatch = useDispatch();
-  const { url } = useRouteMatch();
+
+  // const history = useHistory();
+  // const { url } = useRouteMatch();
 
   const [data, setData] = useState({});
   const { allMahasiswa, mahasiswa } = useSelector(state => state.mahasiswaReducer);

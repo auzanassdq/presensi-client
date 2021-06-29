@@ -1,7 +1,5 @@
 import { useState, useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import Webcam from 'react-webcam';
-import axios from 'axios';
 import * as tf from '@tensorflow/tfjs';
 import * as blazeface from '@tensorflow-models/blazeface';
 import {
@@ -15,7 +13,6 @@ import {
   Modal,
   useToast,
   Center,
-  Heading,
 } from '@chakra-ui/react';
 
 import {
@@ -24,21 +21,26 @@ import {
 } from '../redux/actions/kehadiranAction';
 import WebcamCapture from './WebcamCapture';
 
-export default function ScanModal({ isOpen, onClose, pertemuan }) {
+export default function ScanModal({ isOpen, onClose }) {
   const dispatch = useDispatch();
   const toast = useToast();
-  const { userId } = useSelector(state => state.userReducer);
-  const [dataCheckIn] = useState({ mahasiswa: userId, pertemuan });
+
+  const { userId, nama: userName } = useSelector(state => state.userReducer);
+  const { pertemuan } = useSelector(state => state.pertemuanReducer);
+
+  // console.log(pertemuan);
+
+  const [dataCheckIn] = useState({ mahasiswa: userId, pertemuan: pertemuan._id });
   const [src, setSrc] = useState('');
   const [hadir, setHadir] = useState(false);
 
-  const [inputImage, setinputImage] = useState({
-    file: '',
-    imagePreviewUrl: '',
-  });
+  // const [inputImage, setinputImage] = useState({
+  //   file: '',
+  //   imagePreviewUrl: '',
+  // });
 
   const [model, setModel] = useState(null);
-  const [labels, setLabels] = useState([
+  const [labels] = useState([
     'Defi',
     'Everet',
     'Farhan',
@@ -50,22 +52,21 @@ export default function ScanModal({ isOpen, onClose, pertemuan }) {
     'Raihan',
     'Silmi',
   ]);
-  const [predictLabel, setPredictLabel] = useState('');
-  const [accPercent, setAccPercent] = useState('');
+  // const [predictLabel, setPredictLabel] = useState('');
+  // const [accPercent, setAccPercent] = useState('');
 
   useEffect(() => {
-
     async function loadModel() {
       const result = await tf.loadLayersModel(
         'https://raw.githubusercontent.com/auzanassdq/tfjsmodel/main/model-edit-1.json'
       );
       setModel(result);
     }
-    
+
     loadModel();
     setSrc('');
-    setPredictLabel('');
-    setAccPercent('');
+    // setPredictLabel('');
+    // setAccPercent('');
   }, [isOpen]);
 
   // const handleImageChange = e => {
@@ -88,13 +89,13 @@ export default function ScanModal({ isOpen, onClose, pertemuan }) {
   const handleSubmit = () => {
     const img = document.getElementById('canvas-face');
 
-    let image = tf.browser.fromPixels(img)
+    let image = tf.browser.fromPixels(img);
 
     const ctx = img.getContext('2d');
     ctx.drawImage(img, 0, 0, 400, 300);
 
     // resize
-    image = image.resizeNearestNeighbor([224, 224])
+    image = image.resizeNearestNeighbor([224, 224]);
 
     // green box face
     // drawCanvas(image);
@@ -110,17 +111,50 @@ export default function ScanModal({ isOpen, onClose, pertemuan }) {
     let predictClass = prediction.argMax(1).dataSync();
 
     let accuration = (prediction.dataSync()[predictClass] * 100).toFixed(2);
-    setAccPercent(`${accuration}%`);
+    // setAccPercent(`${accuration}%`);
+
+    console.log(labels[predictClass], accuration + "%");
+    console.log(userName);
+    console.log(dataCheckIn);
 
     // ceK akurasi
-    if (accuration < 50) {
-      setPredictLabel('no body');
+    // if (accuration < 50) {
+    //   setPredictLabel('no body');
+    // } else {
+    //   setPredictLabel(labels[predictClass]);
+    // }
+
+    if (labels[predictClass] === userName) {
+      dispatch(checkInKehadiran(dataCheckIn))
+        .then(result => {
+          dispatch(getKehadiranSuccess(result));
+          toast({
+            title: 'Berhasil CheckIn',
+            status: 'success',
+            duration: 5000,
+            isClosable: true,
+          });
+          onClose()
+        })
+        .catch(error => {
+          toast({
+            title: 'Gagal CheckIn',
+            status: 'error',
+            duration: 5000,
+            isClosable: true,
+          });
+        });
     } else {
-      setPredictLabel(labels[predictClass]);
+      toast({
+        title: 'Anda Siapa??',
+        status: 'error',
+        duration: 5000,
+        isClosable: true,
+      });
     }
 
     // kirim ke backend
-    if (pertemuan._id !== 'TEST_ID') {
+    // if (pertemuan._id !== 'TEST_ID') {
       // dispatch(checkInKehadiran(dataCheckIn))
       //   .then(result => {
       //     dispatch(getKehadiranSuccess(result));
@@ -139,7 +173,7 @@ export default function ScanModal({ isOpen, onClose, pertemuan }) {
       //       isClosable: true,
       //     });
       //   });
-    }
+    // }
   };
 
   const drawCanvas = async image => {
@@ -155,14 +189,15 @@ export default function ScanModal({ isOpen, onClose, pertemuan }) {
       const start = item.topLeft;
       const end = item.bottomRight;
       const size = [end[0] - start[0], end[1] - start[1]];
-      
+
       ctx.beginPath();
       ctx.lineWidth = '4';
       ctx.strokeStyle = 'blue';
       ctx.rect(
         start[0],
         start[1],
-        size[0], size[1]
+        size[0],
+        size[1]
         // item.bottomRight[0] - item.topLeft[0],
         // item.bottomRight[1] - item.topLeft[1]
       );
@@ -185,15 +220,14 @@ export default function ScanModal({ isOpen, onClose, pertemuan }) {
 
       console.log(faceTensor);
 
-      faceTensor = faceTensor
-        .resizeNearestNeighbor([224, 224])
-        // .reshape([1, 224, 224, 3]);
+      faceTensor = faceTensor.resizeNearestNeighbor([224, 224]);
+      // .reshape([1, 224, 224, 3]);
 
-        // const canvasCrop = document.getElementById('canvas-face-crop')
-        // await tf.browser.toPixels(faceTensor, canvasCrop);
+      // const canvasCrop = document.getElementById('canvas-face-crop')
+      // await tf.browser.toPixels(faceTensor, canvasCrop);
 
       let offset = tf.scalar(127.5);
-      faceTensor = faceTensor.sub(offset).div(offset).expandDims()
+      faceTensor = faceTensor.sub(offset).div(offset).expandDims();
       console.log(faceTensor);
 
       const resizeImage = tf.reshape(faceTensor, [1, 224, 224, 3], 'resize');
@@ -203,14 +237,6 @@ export default function ScanModal({ isOpen, onClose, pertemuan }) {
       let predictClass = result.argMax(1).dataSync();
 
       let accuration = (result.dataSync()[predictClass] * 100).toFixed(2);
-      setAccPercent(`${accuration}%`);
-
-      // cek akurasi
-      if (accuration < 50) {
-        setPredictLabel('no body');
-      } else {
-        setPredictLabel(labels[predictClass]);
-      }
 
       console.log(predictClass);
     });
@@ -237,14 +263,15 @@ export default function ScanModal({ isOpen, onClose, pertemuan }) {
           </Center>
           {/* <input type="file" onChange={handleImageChange} /> */}
 
-          {predictLabel === 'no body' ? (
+          {/* predict label */}
+          {/* {predictLabel === 'no body' ? (
             'Anda siapa??'
           ) : (
             <>
               <Heading size="sm">{predictLabel}</Heading>
               <Heading size="sm">{accPercent}</Heading>
             </>
-          )}
+          )} */}
 
           {/* <img width={100} src={inputImage.imagePreviewUrl}/> */}
         </ModalBody>

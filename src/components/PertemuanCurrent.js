@@ -8,7 +8,6 @@ import {
   VStack,
   Flex,
   Text,
-  HStack,
   Center,
   Tag,
   Spacer,

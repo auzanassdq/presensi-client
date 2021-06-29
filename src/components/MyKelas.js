@@ -1,7 +1,7 @@
 import { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useHistory } from 'react-router';
-import { Heading, Box } from '@chakra-ui/react';
+import { Heading, Box, Center } from '@chakra-ui/react';
 
 import { getMahasiswaMatkul } from '../redux/actions/matkulAction';
 import ItemJadwalMatkul from './ItemJadwalMatkul';
@@ -24,16 +24,19 @@ export default function MyKelas() {
   return (
     <>
       <Box w="xs">
-        <Heading size="sm">Kelas Saya</Heading>
+        <Heading size="sm">Matkul Saya</Heading>
       </Box>
-      {mahasiswaMatkul &&
+      {mahasiswaMatkul.length > 0 ? (
         mahasiswaMatkul.map((item, index) => (
           <ItemJadwalMatkul
             key={index}
             matkul={item.matkul}
             handleMatkul={handleMatkul}
           />
-        ))}
+        ))
+      ) : (
+        <Center>Tidak ada Matkul</Center>
+      )}
     </>
   );
 }

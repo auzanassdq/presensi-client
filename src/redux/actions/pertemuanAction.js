@@ -92,10 +92,10 @@ export const getPertemuanUpcoming = (mahasiswaId) => async dispatch => {
     headers: authHeader(),
   });
 
-  if (!result.data) {
-    dispatch(requestFail());
-    throw new Error('No');
-  }
+  // if (!result.data) {
+  //   dispatch(requestFail());
+  //   throw new Error('No');
+  // }
 
   dispatch(getPertemuanUpcomingSuccess(result.data.data));
   // return;

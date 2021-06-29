@@ -1,9 +1,8 @@
-import { ExternalLinkIcon, HamburgerIcon } from '@chakra-ui/icons';
+import { ExternalLinkIcon } from '@chakra-ui/icons';
 import {
   Heading,
   Flex,
   Spacer,
-  Box,
   Center,
   Button,
   Icon,

@@ -14,7 +14,7 @@ export default function ListPertemuan({ matkulId, onOpen }) {
   const { userId } = useSelector(state => state.userReducer);
   const { kehadiran } = useSelector(state => state.kehadiranReducer);
 
-  console.log(pertemuan);
+  // console.log(pertemuan);
   useEffect(() => {
     dispatch(getPertemuanByMatkul(matkulId, userId));
   }, [dispatch, kehadiran, matkulId, userId]);

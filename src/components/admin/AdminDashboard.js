@@ -1,12 +1,4 @@
-import {
-  List,
-  VStack,
-  Flex,
-  Heading,
-  Box,
-  HStack,
-  Spacer,
-} from '@chakra-ui/react';
+import { List, VStack, Flex, Heading, Box, Spacer } from '@chakra-ui/react';
 import { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import {
@@ -24,7 +16,7 @@ import DashboardContent from './DashboardContent';
 import MenuItem from './MenuItem';
 
 export default function AdminDashboard() {
-  let { path, url } = useRouteMatch();
+  let { path } = useRouteMatch();
   const dispatch = useDispatch();
 
   const { allDosen } = useSelector(state => state.dosenReducer);
@@ -34,7 +26,7 @@ export default function AdminDashboard() {
   console.log(allDosen);
 
   // const [content, setstate] = useState(["Matkul", "Dosen", "Mahasiswa"])
-  const [content, setstate] = useState([
+  const [content] = useState([
     { nama: 'Matkul', total: allMatkul.length, path: `${path}/matkul` },
     { nama: 'Dosen', total: allDosen.length, path: `${path}/dosen` },
     {

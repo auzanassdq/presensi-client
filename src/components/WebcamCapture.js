@@ -1,10 +1,9 @@
 import { Button } from '@chakra-ui/button';
 import { VStack } from '@chakra-ui/layout';
-import { Box } from '@chakra-ui/react';
-import React, { Component, useEffect, useState } from 'react';
+import React, { useEffect } from 'react';
 import Webcam from 'react-webcam';
 
-const WebcamComponent = () => <Webcam />;
+// const WebcamComponent = () => <Webcam />;
 
 // const videoConstraints = {
 //   width: 224,
