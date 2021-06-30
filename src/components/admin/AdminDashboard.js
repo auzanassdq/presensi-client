@@ -17,31 +17,7 @@ import MenuItem from './MenuItem';
 
 export default function AdminDashboard() {
   let { path } = useRouteMatch();
-  const dispatch = useDispatch();
 
-  const { allDosen } = useSelector(state => state.dosenReducer);
-  const { allMahasiswa } = useSelector(state => state.mahasiswaReducer);
-  const { allMatkul } = useSelector(state => state.matkulReducer);
-
-  console.log(allDosen);
-
-  // const [content, setstate] = useState(["Matkul", "Dosen", "Mahasiswa"])
-  const [content] = useState([
-    { nama: 'Matkul', total: allMatkul.length, path: `${path}/matkul` },
-    { nama: 'Dosen', total: allDosen.length, path: `${path}/dosen` },
-    {
-      nama: 'Mahasiswa',
-      total: allMahasiswa.length,
-      path: `${path}/mahasiswa`,
-    },
-  ]);
-  console.log(content);
-
-  useEffect(() => {
-    dispatch(getAllDosen());
-    dispatch(getAllMatkul());
-    dispatch(getAllMahasiswa());
-  }, [dispatch]);
 
   return (
     <Flex direction="row">
@@ -50,21 +26,21 @@ export default function AdminDashboard() {
           <Link to={`/dashboard`}>
             <MenuItem text="Home" />
           </Link>
+          <Link to={`${path}/matkul`}>
+            <MenuItem text="Matkul" />
+          </Link>
           <Link to={`${path}/dosen`}>
             <MenuItem text="Dosen" />
           </Link>
           <Link to={`${path}/mahasiswa`}>
             <MenuItem text="Mahasiswa" />
           </Link>
-          <Link to={`${path}/matkul`}>
-            <MenuItem text="Matkul" />
-          </Link>
         </List>
       </VStack>
 
       <Switch>
         <Route exact path={`${path}`}>
-          <MainDashboard content={content} />
+          <MainDashboard />
         </Route>
         <Route path={`${path}/:content`}>
           <DashboardContent dashboardURL={path} />
@@ -74,8 +50,20 @@ export default function AdminDashboard() {
   );
 }
 
-function MainDashboard({ content }) {
+function MainDashboard() {
   const history = useHistory();
+  let { path } = useRouteMatch();
+  const dispatch = useDispatch();
+  
+  const { allDosen } = useSelector(state => state.dosenReducer);
+  const { allMahasiswa } = useSelector(state => state.mahasiswaReducer);
+  const { allMatkul } = useSelector(state => state.matkulReducer);
+
+  useEffect(() => {
+    dispatch(getAllDosen());
+    dispatch(getAllMatkul());
+    dispatch(getAllMahasiswa());
+  }, [dispatch]);
 
   return (
     <VStack width="100%">
@@ -92,23 +80,50 @@ function MainDashboard({ content }) {
         width="100%"
         height="100%"
       >
-        {content.map((item, index) => (
-          <Box
-            key={index}
+        <Box
             p="10"
             mb="5"
             bg="gray.700"
             rounded="5"
             textAlign="center"
             cursor="pointer"
-            onClick={() => history.push(item.path)}
+            onClick={() => history.push(`${path}/matkul`)}
           >
             <Heading size="sm" mb="2">
-              {item.nama}
+              Matkul
             </Heading>
-            <Heading size="3xl">{item.total}</Heading>
+            <Heading size="3xl">{allMatkul.length}</Heading>
           </Box>
-        ))}
+
+          <Box
+            p="10"
+            mb="5"
+            bg="gray.700"
+            rounded="5"
+            textAlign="center"
+            cursor="pointer"
+            onClick={() => history.push(`${path}/dosen`)}
+          >
+            <Heading size="sm" mb="2">
+              Dosen
+            </Heading>
+            <Heading size="3xl">{allDosen.length}</Heading>
+          </Box>
+
+          <Box
+            p="10"
+            mb="5"
+            bg="gray.700"
+            rounded="5"
+            textAlign="center"
+            cursor="pointer"
+            onClick={() => history.push(`${path}/mahasiswa`)}
+          >
+            <Heading size="sm" mb="2">
+              Mahasiswa
+            </Heading>
+            <Heading size="3xl">{allMahasiswa.length}</Heading>
+          </Box>
       </Flex>
     </VStack>
   );
