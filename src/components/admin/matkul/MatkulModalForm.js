@@ -167,8 +167,8 @@ export default function FormModal({ isOpen, onClose, data }) {
             <FormLabel>Dosen</FormLabel>
             <Select name="dosen" placeholder="Dosen" variant="filled" value={matkulInput.dosen}
               onChange={handleChange}>
-              {allDosen.map(item => (
-                <option value={item._id}>{item.nama}</option>
+              {allDosen.map((item, index) => (
+                <option key={index} value={item._id}>{item.nama}</option>
               ))}
             </Select>
           </FormControl>
