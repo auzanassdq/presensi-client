@@ -37,12 +37,18 @@ function App() {
           <Route path="/dashboard">
             {isLogin ? <AdminDashboard /> : <Redirect to="/" />}
           </Route>
-          <Route exact path="/matkul/">
-            {isLogin ? <CariMatkul /> : <Redirect to="/" />}
-          </Route>
-          <Route path="/matkul/:idMatkul">
-            {isLogin ? <Matkul /> : <Redirect to="/" />}
-          </Route>
+          {userId === 'mahasiswa' ? (
+            <>
+              <Route exact path="/matkul/">
+                {isLogin ? <CariMatkul /> : <Redirect to="/" />}
+              </Route>
+              <Route path="/matkul/:idMatkul">
+                {isLogin ? <Matkul /> : <Redirect to="/" />}
+              </Route>
+            </>
+          ) : (
+            <Redirect to="/dashboard" />
+          )}
           <NotFound404Page />
         </Switch>
       </Container>
