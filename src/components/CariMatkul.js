@@ -21,6 +21,7 @@ import {
   ambilMatkul,
 } from '../redux/actions/matkulAction';
 import ModalAdd from './ModalAdd';
+import Color from '../utilities/Color'
 
 function CariMatkul() {
   const [state, setstate] = useState('');
@@ -117,12 +118,15 @@ function CariMatkul() {
           key={index}
           width="100%"
           textAlign="left"
+          bg={Color().cardBg}
+          p="2"
+          borderRadius="4"
           onClick={() => handleClick(item._id)}
         >
           <Heading size="sm" key={index}>
             {item.nama}
           </Heading>
-          <Text></Text>
+          <Text fontSize="xs">{item.dosen.nama}</Text>
         </Box>
       ))}
 
