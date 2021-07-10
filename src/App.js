@@ -11,17 +11,17 @@ import CariMatkul from './components/CariMatkul';
 import AdminDashboard from './components/admin/AdminDashboard';
 import { NotFound404Page } from './pages/NotFound404Page';
 
-function Home({ isLogin, userId }) {
+function Home({ isLogin, role }) {
   if (isLogin) {
-    if (userId === 'admin') return <Redirect to="/dashboard" />;
+    if (role !== "mahasiswa") return <Redirect to="/dashboard" />;
     return <MyDashboard />;
   }
   return <Redirect to="/login" />;
 }
 
 function App() {
-  const { isLogin, userId } = useSelector(state => state.userReducer);
-  console.log(isLogin);
+  const { isLogin, role } = useSelector(state => state.userReducer);
+  console.log(role);
 
   return (
     <ChakraProvider theme={theme}>
@@ -29,7 +29,7 @@ function App() {
         <Navbar />
         <Switch>
           <Route exact path="/">
-            <Home isLogin={isLogin} userId={userId} />
+            <Home isLogin={isLogin} role={role} />
           </Route>
           <Route path="/login">
             {isLogin ? <Redirect to="/" /> : <Login />}
@@ -37,7 +37,7 @@ function App() {
           <Route path="/dashboard">
             {isLogin ? <AdminDashboard /> : <Redirect to="/" />}
           </Route>
-          {userId === 'mahasiswa' ? (
+          {role === 'mahasiswa' ? (
             <>
               <Route exact path="/matkul/">
                 {isLogin ? <CariMatkul /> : <Redirect to="/" />}

@@ -23,7 +23,7 @@ import { logout } from '../redux/actions/userAction';
 function Navbar() {
   const dispatch = useDispatch();
   const history = useHistory();
-  const { isLogin, userId, nama } = useSelector(state => state.userReducer);
+  const { isLogin, role, nama } = useSelector(state => state.userReducer);
 
   const handleLogout = () => {
     dispatch(logout());
@@ -37,7 +37,7 @@ function Navbar() {
         </Heading>
       </Center>
       <Spacer />
-      {isLogin && userId !== 'admin' && (
+      {isLogin && role === 'mahasiswa' && (
         <Button
           variant="link"
           size="sm"

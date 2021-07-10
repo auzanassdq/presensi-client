@@ -1,5 +1,5 @@
 import { List, VStack, Flex, Heading, Box, Spacer } from '@chakra-ui/react';
-import { useEffect, useState } from 'react';
+import { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import {
   Link,
@@ -18,6 +18,7 @@ import MenuItem from './MenuItem';
 export default function AdminDashboard() {
   let { path } = useRouteMatch();
 
+  const { role } = useSelector(state => state.userReducer);
 
   return (
     <Flex direction="row">
@@ -29,12 +30,16 @@ export default function AdminDashboard() {
           <Link to={`${path}/matkul`}>
             <MenuItem text="Matkul" />
           </Link>
-          <Link to={`${path}/dosen`}>
-            <MenuItem text="Dosen" />
-          </Link>
-          <Link to={`${path}/mahasiswa`}>
-            <MenuItem text="Mahasiswa" />
-          </Link>
+          {role === 'admin' && (
+            <>
+              <Link to={`${path}/dosen`}>
+                <MenuItem text="Dosen" />
+              </Link>
+              <Link to={`${path}/mahasiswa`}>
+                <MenuItem text="Mahasiswa" />
+              </Link>
+            </>
+          )}
         </List>
       </VStack>
 
@@ -54,16 +59,17 @@ function MainDashboard() {
   const history = useHistory();
   let { path } = useRouteMatch();
   const dispatch = useDispatch();
-  
+
   const { allDosen } = useSelector(state => state.dosenReducer);
   const { allMahasiswa } = useSelector(state => state.mahasiswaReducer);
   const { allMatkul } = useSelector(state => state.matkulReducer);
+  const { role, userId } = useSelector(state => state.userReducer);
 
   useEffect(() => {
     dispatch(getAllDosen());
-    dispatch(getAllMatkul());
+    dispatch(getAllMatkul('', {userId, role}));
     dispatch(getAllMahasiswa());
-  }, [dispatch]);
+  }, [dispatch, userId, role]);
 
   return (
     <VStack width="100%">
@@ -81,49 +87,53 @@ function MainDashboard() {
         height="100%"
       >
         <Box
-            p="10"
-            mb="5"
-            bg="gray.700"
-            rounded="5"
-            textAlign="center"
-            cursor="pointer"
-            onClick={() => history.push(`${path}/matkul`)}
-          >
-            <Heading size="sm" mb="2">
-              Matkul
-            </Heading>
-            <Heading size="3xl">{allMatkul.length}</Heading>
-          </Box>
+          p="10"
+          mb="5"
+          bg="gray.700"
+          rounded="5"
+          textAlign="center"
+          cursor="pointer"
+          onClick={() => history.push(`${path}/matkul`)}
+        >
+          <Heading size="sm" mb="2">
+            Matkul
+          </Heading>
+          <Heading size="3xl">{allMatkul.length}</Heading>
+        </Box>
 
-          <Box
-            p="10"
-            mb="5"
-            bg="gray.700"
-            rounded="5"
-            textAlign="center"
-            cursor="pointer"
-            onClick={() => history.push(`${path}/dosen`)}
-          >
-            <Heading size="sm" mb="2">
-              Dosen
-            </Heading>
-            <Heading size="3xl">{allDosen.length}</Heading>
-          </Box>
+        {role === 'admin' && (
+          <>
+            <Box
+              p="10"
+              mb="5"
+              bg="gray.700"
+              rounded="5"
+              textAlign="center"
+              cursor="pointer"
+              onClick={() => history.push(`${path}/dosen`)}
+            >
+              <Heading size="sm" mb="2">
+                Dosen
+              </Heading>
+              <Heading size="3xl">{allDosen.length}</Heading>
+            </Box>
 
-          <Box
-            p="10"
-            mb="5"
-            bg="gray.700"
-            rounded="5"
-            textAlign="center"
-            cursor="pointer"
-            onClick={() => history.push(`${path}/mahasiswa`)}
-          >
-            <Heading size="sm" mb="2">
-              Mahasiswa
-            </Heading>
-            <Heading size="3xl">{allMahasiswa.length}</Heading>
-          </Box>
+            <Box
+              p="10"
+              mb="5"
+              bg="gray.700"
+              rounded="5"
+              textAlign="center"
+              cursor="pointer"
+              onClick={() => history.push(`${path}/mahasiswa`)}
+            >
+              <Heading size="sm" mb="2">
+                Mahasiswa
+              </Heading>
+              <Heading size="3xl">{allMahasiswa.length}</Heading>
+            </Box>
+          </>
+        )}
       </Flex>
     </VStack>
   );
