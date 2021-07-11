@@ -1,6 +1,6 @@
 import { useEffect, useState, useRef } from 'react';
 import { useTable, useSortBy } from 'react-table';
-import { useParams } from 'react-router';
+import { useParams, useHistory, useRouteMatch } from 'react-router';
 import { useDispatch, useSelector } from 'react-redux';
 import moment from 'moment';
 import {
@@ -26,6 +26,9 @@ import FormModal from './PertemuanModalForm';
 
 export default function PertemuanTable() {
   const dispatch = useDispatch();
+
+  const history = useHistory();
+  const { url } = useRouteMatch();
   const { matkulId } = useParams();
 
   const { pertemuanByMatkul, pertemuan } = useSelector(
@@ -72,6 +75,11 @@ export default function PertemuanTable() {
     setData(pertemuan);
     setIsOpenAlert(!isOpenAlert);
   };
+
+  const lihatKehadiran = (pertemuan) => {
+    console.log(pertemuan);
+    history.push(`${url}/${pertemuan._id}`);
+  }
 
   return (
     <>
@@ -137,7 +145,10 @@ export default function PertemuanTable() {
                       );
                     default:
                       return (
-                        <Td {...cell.getCellProps()} fontSize="sm">
+                        <Td {...cell.getCellProps()} 
+                        fontSize="sm"
+                        onClick={() => lihatKehadiran(row.original)}
+                        >
                           {cell.render('Cell')}
                         </Td>
                       );
