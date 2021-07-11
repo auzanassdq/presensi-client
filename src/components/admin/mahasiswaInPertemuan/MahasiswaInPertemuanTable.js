@@ -15,21 +15,24 @@ import { useParams } from 'react-router';
 import { useSortBy, useTable } from 'react-table';
 import moment from 'moment';
 
-import { getKehadiranPertemuan, editKehadiran } from '../../../redux/actions/kehadiranAction';
+import {
+  getKehadiranPertemuan,
+  editKehadiran,
+} from '../../../redux/actions/kehadiranAction';
 import AlertDelete from '../AlertDelete';
 import HeadContent from '../HeadContent';
 import TableBase from '../TableBase';
 
 export default function MahasiswaInPertemuanTable() {
   const dispatch = useDispatch();
-  // const history = useHistory();
   const { pertemuanId } = useParams();
-  // const { url } = useRouteMatch();
 
   const toast = useToast();
   const [data, setData] = useState({});
-  const { kehadiranByPertemuan, kehadiran } = useSelector(state => state.kehadiranReducer);
-  console.log(kehadiranByPertemuan);
+  const { kehadiranByPertemuan, kehadiran } = useSelector(
+    state => state.kehadiranReducer
+  );
+  // console.log(kehadiranByPertemuan);
 
   // alert
   const [isOpenAlert, setIsOpenAlert] = useState(false);
@@ -55,33 +58,33 @@ export default function MahasiswaInPertemuanTable() {
     );
   const firstPageRows = rows.slice(0, 20);
 
+  // edit handler
   const editHandler = (kehadiranId, status) => {
     let data = {
       status,
-      checkIn: Date.now()
-    }
-    
+      checkIn: Date.now(),
+    };
+
     dispatch(editKehadiran(kehadiranId, data))
-    .then(() => {
-      toast({
-        title: 'Berhasil di Edit',
-        status: 'success',
-        duration: 3000,
-        isClosable: true,
+      .then(() => {
+        toast({
+          title: 'Berhasil di Edit',
+          status: 'success',
+          duration: 3000,
+          isClosable: true,
+        });
       })
-    })
-    .catch(err => {
-      toast({
-        title: 'Gagal Di Edit',
-        status: 'error',
-        duration: 3000,
-        isClosable: true,
+      .catch(err => {
+        toast({
+          title: 'Gagal Di Edit',
+          status: 'error',
+          duration: 3000,
+          isClosable: true,
+        });
       });
-    });
   };
 
   useEffect(() => {
-    // dispatch(getAllMahasiswa());
     dispatch(getKehadiranPertemuan(pertemuanId));
   }, [dispatch, pertemuanId, kehadiran]);
 
@@ -89,8 +92,6 @@ export default function MahasiswaInPertemuanTable() {
     <>
       <HeadContent title="Kehadiran" setData={setData} />
 
-      {/* Modal */}
-      {/* <FormModal isOpen={isOpen} onClose={onClose} data={data} /> */}
       <AlertDelete
         isOpen={isOpenAlert}
         onClose={onCloseAlert}
@@ -108,50 +109,46 @@ export default function MahasiswaInPertemuanTable() {
               <Tr {...row.getRowProps()}>
                 {row.cells.map(cell => {
                   switch (cell.column.Header) {
-                    // case 'Nim':
-                    //   return (
-                    //     <Td {...cell.getCellProps()} pt="1" pb="1">
-                    //       {cell.value.nim}
-                    //     </Td>
-                    //   );
                     case 'CheckIn':
                       return (
                         <Td {...cell.getCellProps()} pt="1" pb="1">
-                          {cell.row.original.status ? 
-                          moment(cell.value).format('dddd, DD-MMM-YYYY, kk:mm')
-                          // cell.render('Cell') 
-                          : "-"}
+                          {cell.row.original.status
+                            ? moment(cell.value).format(
+                                'dddd, DD-MMM-YYYY, kk:mm'
+                              )
+                            : '-'}
                         </Td>
                       );
-                      case 'Status':
-                        return (
-                          <Td {...cell.getCellProps()} 
-                          pt="1" pb="1"
-                          >
-                            <Menu>
+                    case 'Status':
+                      return (
+                        <Td {...cell.getCellProps()} pt="1" pb="1">
+                          <Menu>
                             <MenuButton
-                              colorScheme={cell.value ? "green" : "red"}
+                              colorScheme={cell.value ? 'green' : 'red'}
                               size="sm"
                               as={Badge}
                             >
-                              {cell.value ? "Hadir" : "Tidak"}
+                              {cell.value ? 'Hadir' : 'Tidak'}
                             </MenuButton>
                             <MenuList minWidth="1">
                               <MenuItem
-                                onClick={() => editHandler(cell.row.original._id, true)}
+                                onClick={() =>
+                                  editHandler(cell.row.original._id, true)
+                                }
                               >
                                 Hadir
                               </MenuItem>
                               <MenuItem
-                                onClick={() => editHandler(cell.row.original._id, false)}
+                                onClick={() =>
+                                  editHandler(cell.row.original._id, false)
+                                }
                               >
                                 Tidak
                               </MenuItem>
                             </MenuList>
                           </Menu>
-                            
-                          </Td>
-                        );
+                        </Td>
+                      );
                     default:
                       return (
                         <Td {...cell.getCellProps()} fontSize="sm">
