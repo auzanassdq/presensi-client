@@ -5,6 +5,7 @@ import MatkulTable from './matkul/MatkulTable';
 import PertemuanTable from './pertemuan/PertemuanTable';
 import DosenTable from './dosen/DosenTable';
 import MahasiswaTable from './mahasiswa/MahasiswaTable';
+import MahasiswaInPertemuanTable from './mahasiswaInPertemuan/MahasiswaInPertemuanTable';
 
 export default function DashboardContent({ dashboardURL }) {
   const { content } = useParams();
@@ -18,8 +19,11 @@ export default function DashboardContent({ dashboardURL }) {
         <Route exact path={`${path}`}>
           <ContentSwitcher content={content} />
         </Route>
-        <Route path={`${dashboardURL}/matkul/:matkulId`}>
+        <Route exact path={`${dashboardURL}/matkul/:matkulId`}>
           <PertemuanTable />
+        </Route>
+        <Route path={`${dashboardURL}/matkul/:matkulId/:pertemuanId`}>
+          <MahasiswaInPertemuanTable />
         </Route>
         <Heading>Ngaco</Heading>
       </Switch>
