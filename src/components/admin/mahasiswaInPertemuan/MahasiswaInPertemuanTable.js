@@ -49,7 +49,7 @@ export default function MahasiswaInPertemuanTable() {
     useTable(
       {
         columns,
-        data: kehadiranByPertemuan,
+        data: kehadiranByPertemuan || [],
       },
       useSortBy
     );
