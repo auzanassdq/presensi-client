@@ -46,10 +46,17 @@ const matkulReducer = (state = initialState, action) => {
         matkul: action.payload,
       };
     case GET_ALL_MATKUL_SUCCESS:
+      console.log(action);
+      let allMatkul = action.payload
+
+      if (action.user && action.user.role === 'dosen') {
+        allMatkul = allMatkul.filter(item => item.dosen._id === action.user.userId)
+      }
+
       return {
         ...state,
         isLoading: false,
-        allMatkul: action.payload,
+        allMatkul
       };
     case GET_MAHASISWA_MATKUL_SUCCESS:
       return {

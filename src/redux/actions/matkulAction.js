@@ -28,10 +28,11 @@ const getMatkulSuccess = payload => {
   };
 };
 
-const getAllMatkulSuccess = payload => {
+const getAllMatkulSuccess = (payload, user) => {
   return {
     type: GET_ALL_MATKUL_SUCCESS,
     payload,
+    user
   };
 };
 
@@ -70,7 +71,7 @@ export const getMatkulByID = idMatkul => async dispatch => {
   }
 };
 
-export const getAllMatkul = matkul => async dispatch => {
+export const getAllMatkul = (matkul, user) => async dispatch => {
   dispatch(apiRequest());
   let url = `${process.env.REACT_APP_API}/matkul`;
 
@@ -81,7 +82,7 @@ export const getAllMatkul = matkul => async dispatch => {
   });
   // console.log(result);
   if (result.data) {
-    dispatch(getAllMatkulSuccess(result.data.data));
+    dispatch(getAllMatkulSuccess(result.data.data, user));
   } else {
     dispatch(requestFail());
   }
