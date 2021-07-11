@@ -18,12 +18,14 @@ const initialState = user._id
       isLogin: true,
       userId: user._id,
       nama: user.nama ? user.nama : "admin",
+      role: user.role
     }
   : {
       isLoading: false,
       isLogin: false,
       userId: '',
-      nama: ''
+      nama: '',
+      role: ''
     };
 
 const userReducer = (state = initialState, action) => {
@@ -36,11 +38,13 @@ const userReducer = (state = initialState, action) => {
     case LOGIN_SUCCESS:
       console.log(action.payload);
       let user = jwt.verify(action.payload.token, 'secret');
+      console.log(user);
       return {
         isLoading: false,
         isLogin: true,
         userId: user._id,
-        nama: user.nama
+        nama: user.nama,
+        role: user.role
       };
     case LOGIN_FAIL:
       return {
