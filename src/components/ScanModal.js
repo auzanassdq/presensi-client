@@ -17,7 +17,7 @@ import {
 
 import {
   checkInKehadiran,
-  getKehadiranSuccess,
+  reqKehadiranSuccess,
 } from '../redux/actions/kehadiranAction';
 import WebcamCapture from './WebcamCapture';
 
@@ -28,9 +28,9 @@ export default function ScanModal({ isOpen, onClose }) {
   const { userId, nama: userName } = useSelector(state => state.userReducer);
   const { pertemuan } = useSelector(state => state.pertemuanReducer);
 
-  // console.log(pertemuan);
+  console.log(pertemuan);
 
-  const [dataCheckIn] = useState({ mahasiswa: userId, pertemuan: pertemuan._id });
+  // const [dataCheckIn] = useState({ mahasiswa: userId, pertemuan: pertemuan._id });
   const [src, setSrc] = useState('');
   const [hadir, setHadir] = useState(false);
 
@@ -110,11 +110,13 @@ export default function ScanModal({ isOpen, onClose }) {
     let prediction = model.predict(resizeImage);
     let predictClass = prediction.argMax(1).dataSync();
 
-    let accuration = (prediction.dataSync()[predictClass] * 100).toFixed(2);
+    // let accuration = (prediction.dataSync()[predictClass] * 100).toFixed(2);
     // setAccPercent(`${accuration}%`);
 
-    console.log(labels[predictClass], accuration + "%");
-    console.log(userName);
+    // console.log(labels[predictClass], accuration + "%");
+    // console.log(userName);
+
+    let dataCheckIn = { mahasiswa: userId, pertemuan: pertemuan._id }
     console.log(dataCheckIn);
 
     // ceK akurasi
@@ -125,9 +127,10 @@ export default function ScanModal({ isOpen, onClose }) {
     // }
 
     if (labels[predictClass] === userName) {
+      console.log("tes");
       dispatch(checkInKehadiran(dataCheckIn))
         .then(result => {
-          dispatch(getKehadiranSuccess(result));
+          dispatch(reqKehadiranSuccess(result));
           toast({
             title: 'Berhasil CheckIn',
             status: 'success',
@@ -157,7 +160,7 @@ export default function ScanModal({ isOpen, onClose }) {
     // if (pertemuan._id !== 'TEST_ID') {
       // dispatch(checkInKehadiran(dataCheckIn))
       //   .then(result => {
-      //     dispatch(getKehadiranSuccess(result));
+      //     dispatch(reqKehadiranSuccess(result));
       //     toast({
       //       title: 'Berhasil CheckIn',
       //       status: 'success',
@@ -203,12 +206,12 @@ export default function ScanModal({ isOpen, onClose }) {
       );
       ctx.stroke();
 
-      console.log(item);
+      // console.log(item);
 
-      console.log(item.topLeft[0]);
-      console.log(item.topLeft[1]);
-      console.log(item.bottomRight[0] - item.topLeft[0]);
-      console.log(item.bottomRight[1] - item.topLeft[1]);
+      // console.log(item.topLeft[0]);
+      // console.log(item.topLeft[1]);
+      // console.log(item.bottomRight[0] - item.topLeft[0]);
+      // console.log(item.bottomRight[1] - item.topLeft[1]);
 
       let width = parseInt(item.bottomRight[1] - item.topLeft[1]);
       let height = parseInt(item.bottomRight[0] - item.topLeft[0]);
