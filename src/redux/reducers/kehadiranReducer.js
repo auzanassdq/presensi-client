@@ -1,12 +1,15 @@
 import {
   API_REQUEST,
-  GET_KEHADIRAN_SUCCESS,
-} from '../actions/kehadiranAction'
+  REQUEST_FAIL,
+  REQ_KEHADIRAN_SUCCESS,
+  GET_KEHADIRAN_PERTEMUAN_SUCCESS,
+} from '../actions/kehadiranAction';
 
 const initialState = {
   isLoading: false,
-  kehadiran: {}
-}
+  kehadiran: {},
+  kehadiranByPertemuan: [],
+};
 
 const kehadiranReducer = (state = initialState, action) => {
   switch (action.type) {
@@ -14,16 +17,27 @@ const kehadiranReducer = (state = initialState, action) => {
       return {
         ...state,
         isLoading: true,
-      }
-    case GET_KEHADIRAN_SUCCESS:
+      };
+    case REQUEST_FAIL:
+      return {
+        ...state,
+        isLoading: false,
+      };
+    case REQ_KEHADIRAN_SUCCESS:
       return {
         ...state,
         isLoading: false,
         kehadiran: action.payload,
-      }
+      };
+    case GET_KEHADIRAN_PERTEMUAN_SUCCESS:
+      return {
+        ...state,
+        isLoading: false,
+        kehadiranByPertemuan: action.payload,
+      };
     default:
-      return state
+      return state;
   }
-}
+};
 
-export default kehadiranReducer
+export default kehadiranReducer;
