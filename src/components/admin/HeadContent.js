@@ -6,16 +6,19 @@ export default function HeadContent({ title, setData, onOpen }) {
     <Flex alignItems="center" p="4">
       <Heading size="md">{title}</Heading>
       <Spacer />
+
+      {title !== "Kehadiran" && 
       <Button
-        colorScheme="blue"
-        size="sm"
-        onClick={() => {
-          setData({});
-          onOpen();
-        }}
+      colorScheme="blue"
+      size="sm"
+      onClick={() => {
+        setData({});
+        onOpen();
+      }}
       >
         + {title}
       </Button>
+      }
     </Flex>
   );
 }
