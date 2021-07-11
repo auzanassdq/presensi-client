@@ -30,6 +30,7 @@ export default function MatkulTable() {
 
   const [data, setData] = useState({});
   const { allMatkul, matkul } = useSelector(state => state.matkulReducer);
+  const { userId, role } = useSelector(state => state.userReducer);
 
   // modal
   const { isOpen, onOpen, onClose } = useDisclosure();
@@ -55,7 +56,7 @@ export default function MatkulTable() {
     useTable(
       {
         columns,
-        data: allMatkul,
+        data:  allMatkul,
       },
       useSortBy
     );
@@ -77,10 +78,8 @@ export default function MatkulTable() {
   };
 
   useEffect(() => {
-    dispatch(getAllMatkul());
-  }, [dispatch, matkul]);
-
-
+    dispatch(getAllMatkul('', {userId, role}));
+  }, [dispatch, matkul, role, userId]);
 
   return (
     <>
