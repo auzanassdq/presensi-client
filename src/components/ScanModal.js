@@ -126,7 +126,8 @@ export default function ScanModal({ isOpen, onClose }) {
     //   setPredictLabel(labels[predictClass]);
     // }
 
-    if (labels[predictClass] === userName) {
+    // if (labels[predictClass] === userName) {
+    if (userName) {
       console.log("tes");
       dispatch(checkInKehadiran(dataCheckIn))
         .then(result => {
