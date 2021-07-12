@@ -96,7 +96,7 @@ function CariMatkul() {
           children={<Search2Icon color="gray.300" />}
         />
         <Input
-          type="tel"
+          type="text"
           placeholder="Cari matkul"
           variant="filled"
           value={state}
