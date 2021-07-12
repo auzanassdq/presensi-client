@@ -17,7 +17,7 @@ import {
 import { DeleteIcon, EditIcon } from '@chakra-ui/icons';
 
 import { getMatkulByID } from '../../../redux/actions/matkulAction';
-import { getPertemuanByMatkul } from '../../../redux/actions/pertemuanAction';
+import { getPertemuanByMatkul, deletePertemuan } from '../../../redux/actions/pertemuanAction';
 
 import TableBase from '../TableBase';
 import HeadContent from '../HeadContent';
@@ -96,6 +96,7 @@ export default function PertemuanTable() {
         onClose={onCloseAlert}
         cancelRef={cancelRefAlert}
         data={data}
+        handleDelete={deletePertemuan}
         topic="pertemuan"
       />
 

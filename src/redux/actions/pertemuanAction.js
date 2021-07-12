@@ -161,3 +161,15 @@ export const editPertemuan = (data, pertemuanId) => async dispatch => {
   dispatch(reqPertemuanSuccess(result.data.data));
   return
 };
+
+export const deletePertemuan = pertemuanId => async dispatch => {
+  let url = `${process.env.REACT_APP_API}/pertemuan/${pertemuanId}`;
+
+  let result = await axios({
+    method: 'delete',
+    url,
+    headers: authHeader(),
+  });
+
+  return result;
+}
