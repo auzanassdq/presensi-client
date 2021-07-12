@@ -66,28 +66,10 @@ export default function PertemuanItem({ pertemuan, lastItem, onOpen }) {
       w="xs"
       rounded={5}
       overflow="hidden"
-      // onClick={() => handleMatkul(pertemuan)}
       onClick={handlePertemuan}
     >
-      {/* <ScanModal isOpen={isOpen} onClose={onClose} pertemuan={pertemuan} /> */}
       <Flex direction="row">
         <Flex direction="column" spacing="0">
-          {/* {new Date(pertemuan.jadwal).getTime() > Date.now() ? (
-            <Circle size="40px" bg={Color().netralColor}>
-              <MinusIcon color={Color().textNetralColor} />
-            </Circle>
-          ) : (
-            <Circle
-              size="40px"
-              bg={pertemuan.kehadiran.status ? Color().checkColor : Color().unCheckColor}
-            >
-              {pertemuan.kehadiran.status ? (
-                <CheckIcon color={Color().textCheckColor} />
-              ) : (
-                <CloseIcon color={Color().textUnCheckColor} />
-              )}
-            </Circle>
-          )} */}
           <CircleKehadiran pertemuan={pertemuan} />
 
           {!lastItem && (
@@ -109,11 +91,7 @@ export default function PertemuanItem({ pertemuan, lastItem, onOpen }) {
             p="2"
             justifyContent="center"
           >
-            {/* {pertemuan.kehadiran.checkIn < pertemuan.jadwal
-              ? '-'
-              : moment(pertemuan.kehadiran.checkIn).format('kk:mm')} */}
-
-            {pertemuan.kehadiran.status
+            {pertemuan.kehadiran && pertemuan.kehadiran.status
               ? moment(pertemuan.kehadiran.checkIn).format('kk:mm')
               : '-'}
           </Flex>
