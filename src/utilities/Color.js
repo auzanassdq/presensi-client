@@ -12,6 +12,9 @@ export default function Color() {
   const unCheckColor = useColorModeValue('pink.100', 'pink.900');
   const textUnCheckColor = useColorModeValue('pink.500', 'pink.500');
 
+  const boxBlue = useColorModeValue('blue.300', 'blue.800')
+
+
   return {
     cardBg,
     netralColor,
@@ -19,6 +22,7 @@ export default function Color() {
     checkColor,
     textCheckColor,
     unCheckColor,
-    textUnCheckColor
+    textUnCheckColor,
+    boxBlue
   }
 }

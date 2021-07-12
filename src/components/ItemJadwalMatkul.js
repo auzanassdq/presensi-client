@@ -23,7 +23,7 @@ export default function ItemJadwalMatkul({ matkul, handleMatkul }) {
         direction="column"
         justifyContent="center"
         spacing="none"
-        bg="blue.800"
+        bg={Color().boxBlue}
         p="3"
         w="65px"
         h="100%"
