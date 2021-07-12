@@ -143,10 +143,10 @@ function CircleKehadiran({ pertemuan }) {
     <Circle
       size="40px"
       bg={
-        pertemuan.kehadiran.status ? Color().checkColor : Color().unCheckColor
+        pertemuan.kehadiran && pertemuan.kehadiran.status ? Color().checkColor : Color().unCheckColor
       }
     >
-      {pertemuan.kehadiran.status ? (
+      {pertemuan.kehadiran && pertemuan.kehadiran.status ? (
         <CheckIcon color={Color().textCheckColor} />
       ) : (
         <CloseIcon color={Color().textUnCheckColor} />
