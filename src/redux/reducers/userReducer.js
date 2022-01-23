@@ -1,4 +1,6 @@
 import jwt from 'jsonwebtoken';
+import Cookies from 'js-cookie'
+
 import {
   LOGIN_SUCCESS,
   LOGIN_REQUEST,
@@ -6,11 +8,11 @@ import {
   LOGOUT,
 } from '../actions/userAction';
 
-const token = localStorage.getItem('token');
+// const token = localStorage.getItem('token');
+const token = Cookies.get('token')
 let user = {};
 
 if (token) user = jwt.verify(token, 'secret');
-console.log(user);
 
 const initialState = user._id
   ? {

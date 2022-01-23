@@ -1,5 +1,7 @@
+import Cookies from 'js-cookie'
+
 export function authHeader () {
-  let token = localStorage.getItem("token")
+  const token = Cookies.get('token')
   return {
     Authorization: 'Bearer ' + token
   }

@@ -19,9 +19,9 @@ import {
   getAllMatkul,
   cekAmbilMatkul,
   ambilMatkul,
-} from '../redux/actions/matkulAction';
-import ModalAdd from './ModalAdd';
-import Color from '../utilities/Color'
+} from '../../redux/actions/matkulAction';
+import ModalAdd from '../../components/ModalAdd';
+import Color from '../../utilities/Color'
 
 function CariMatkul() {
   const [state, setstate] = useState('');

@@ -3,13 +3,13 @@ import { useHistory, useParams } from 'react-router';
 import { useSelector, useDispatch } from 'react-redux';
 import { Button, Center, Box, Heading, useDisclosure } from '@chakra-ui/react';
 
-import { getMatkulByID, removeAmbilKelas } from '../redux/actions/matkulAction';
+import { getMatkulByID, removeAmbilKelas } from '../../redux/actions/matkulAction';
 // import { setPertemuanItem } from '../redux/actions/pertemuanAction';
 // import { getMatkulByID, removeAmbilKelas } from '../redux/actions/pertemuanAction';
 
-import ListPertemuan from './ListPertemuan';
-import ModalDelete from './ModalDelete';
-import ScanModal from './ScanModal';
+import ListPertemuan from '../../components/ListPertemuan';
+import ModalDelete from '../../components/ModalDelete';
+import ScanModal from '../../components/ScanModal';
 
 function Matkul() {
   const { idMatkul } = useParams();
@@ -65,9 +65,6 @@ function Matkul() {
             <ListPertemuan matkulId={idMatkul} onOpen={onOpen} />
           </Center>
           <Center>
-            {/* <Button mt="100px" onClick={handleTest}>
-              Test scan
-            </Button> */}
             <Button
               variant="link"
               mt="100px"

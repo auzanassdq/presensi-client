@@ -1,59 +1,13 @@
-import { List, VStack, Flex, Heading, Box, Spacer } from '@chakra-ui/react';
+import {VStack, Flex, Heading, Box, Spacer } from '@chakra-ui/react';
 import { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import {
-  Link,
-  Route,
-  Switch,
   useHistory,
   useRouteMatch,
 } from 'react-router-dom';
 import { getAllDosen } from '../../redux/actions/dosenAction';
 import { getAllMahasiswa } from '../../redux/actions/mahasiswaAction';
 import { getAllMatkul } from '../../redux/actions/matkulAction';
-
-import DashboardContent from './DashboardContent';
-import MenuItem from './MenuItem';
-
-export default function AdminDashboard() {
-  let { path } = useRouteMatch();
-
-  const { role } = useSelector(state => state.userReducer);
-
-  return (
-    <Flex direction="row">
-      <VStack mr="30px" mb="auto" display={['none', 'none', 'flex', 'flex']}>
-        <List spacing={5}>
-          <Link to={`/dashboard`}>
-            <MenuItem text="Home" />
-          </Link>
-          <Link to={`${path}/matkul`}>
-            <MenuItem text="Matkul" />
-          </Link>
-          {role === 'admin' && (
-            <>
-              <Link to={`${path}/dosen`}>
-                <MenuItem text="Dosen" />
-              </Link>
-              <Link to={`${path}/mahasiswa`}>
-                <MenuItem text="Mahasiswa" />
-              </Link>
-            </>
-          )}
-        </List>
-      </VStack>
-
-      <Switch>
-        <Route exact path={`${path}`}>
-          <MainDashboard />
-        </Route>
-        <Route path={`${path}/:content`}>
-          <DashboardContent dashboardURL={path} />
-        </Route>
-      </Switch>
-    </Flex>
-  );
-}
 
 function MainDashboard() {
   const history = useHistory();
@@ -138,3 +92,5 @@ function MainDashboard() {
     </VStack>
   );
 }
+
+export default MainDashboard

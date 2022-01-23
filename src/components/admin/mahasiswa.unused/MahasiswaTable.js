@@ -1,9 +1,4 @@
 import {
-  Button,
-  Menu,
-  MenuButton,
-  MenuItem,
-  MenuList,
   Tbody,
   Td,
   Tr,
@@ -12,21 +7,21 @@ import {
 import React, { useEffect, useRef, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useSortBy, useTable } from 'react-table';
-import { getAllDosen } from '../../../redux/actions/dosenAction';
+import { getAllMahasiswa } from '../../../redux/actions/mahasiswaAction';
 import AlertDelete from '../AlertDelete';
 import HeadContent from '../HeadContent';
-import FormModal from '../dosen/DosenModalForm';
+import FormModal from './MahasiswaModalForm';
 import TableBase from '../TableBase';
-import { DeleteIcon, EditIcon } from '@chakra-ui/icons';
+import OptionMenu from '../OptionMenu';
+import { tableColumn } from '../../../utilities/tableData';
 
-export default function DosenTable() {
+export default function MahasiswaTable({content}) {
   const dispatch = useDispatch();
 
-  // const history = useHistory();
-  // const { url } = useRouteMatch();
-
   const [data, setData] = useState({});
-  const { allDosen, dosen } = useSelector(state => state.dosenReducer);
+  const { allMahasiswa, mahasiswa } = useSelector(
+    state => state.mahasiswaReducer
+  );
 
   // modal
   const { isOpen, onOpen, onClose } = useDisclosure();
@@ -37,42 +32,36 @@ export default function DosenTable() {
   const cancelRefAlert = useRef();
 
   // colomn table
-  const [columns] = useState([
-    { Header: 'NIDN', accessor: 'nidn' },
-    { Header: 'Nama', accessor: 'nama' },
-    { Header: 'Email', accessor: 'email' },
-    { Header: 'Username', accessor: 'username' },
-    { Header: 'Opsi', accessor: 'opsi' },
-  ]);
+  const [columns] = useState(tableColumn[content]);
 
   // row table
   const { getTableProps, getTableBodyProps, headers, rows, prepareRow } =
     useTable(
       {
         columns,
-        data: allDosen,
+        data: allMahasiswa,
       },
       useSortBy
     );
   const firstPageRows = rows.slice(0, 20);
 
-  const editHandler = matkul => {
-    setData(matkul);
+  const editHandler = item => {
+    setData(item);
     onOpen();
   };
 
-  const deleteHandler = matkul => {
-    setData(matkul);
+  const deleteHandler = item => {
+    setData(item);
     setIsOpenAlert(!isOpenAlert);
   };
 
   useEffect(() => {
-    dispatch(getAllDosen());
-  }, [dispatch, dosen]);
+    dispatch(getAllMahasiswa());
+  }, [dispatch, mahasiswa]);
 
   return (
     <>
-      <HeadContent title="Dosen" setData={setData} onOpen={onOpen} />
+      <HeadContent title="Mahasiswa" setData={setData} onOpen={onOpen} />
 
       {/* Modal */}
       <FormModal isOpen={isOpen} onClose={onClose} data={data} />
@@ -81,7 +70,7 @@ export default function DosenTable() {
         onClose={onCloseAlert}
         cancelRef={cancelRefAlert}
         data={data}
-        topic="dosen"
+        topic="mahasiswa"
       />
 
       {/* Table */}
@@ -96,29 +85,12 @@ export default function DosenTable() {
                     case 'Opsi':
                       return (
                         <Td {...cell.getCellProps()} pt="1" pb="1">
-                          <Menu>
-                            <MenuButton
-                              colorScheme="blue"
-                              size="sm"
-                              as={Button}
-                            >
-                              Opsi
-                            </MenuButton>
-                            <MenuList minWidth="1">
-                              <MenuItem
-                                icon={<EditIcon />}
-                                onClick={() => editHandler(cell.row.original)}
-                              >
-                                Ubah
-                              </MenuItem>
-                              <MenuItem
-                                icon={<DeleteIcon />}
-                                onClick={() => deleteHandler(cell.row.original)}
-                              >
-                                Hapus
-                              </MenuItem>
-                            </MenuList>
-                          </Menu>
+                          <OptionMenu
+                            editHandler={() => editHandler(cell.row.original)}
+                            deleteHandler={() =>
+                              deleteHandler(cell.row.original)
+                            }
+                          />
                         </Td>
                       );
                     default:

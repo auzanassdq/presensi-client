@@ -1,4 +1,5 @@
 import axios from 'axios';
+import Cookies from 'js-cookie'
 
 export const LOGIN_SUCCESS = 'LOGIN_SUCCESS';
 export const LOGIN_REQUEST = 'LOGIN_REQUEST';
@@ -40,7 +41,7 @@ export const login = user => async dispatch => {
   );
 
   if (result.data.token) {
-    localStorage.setItem('token', result.data.token);
+    Cookies.set('token', result.data.token, { expires: 7 })
     dispatch(loginSuccess(result.data));
   } else {
     dispatch(loginFail());

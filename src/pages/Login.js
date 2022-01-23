@@ -1,21 +1,3 @@
-//   let userRegex = /u/
-//   let passRegex = /p/
-//   if (e.target.name == "username") {
-//     if (userRegex.test(e.target.value)) {
-//       setErrMessage({...errMessage, username: ""})
-//       setLolos(true)
-//     } else {
-//       setErrMessage({...errMessage, username: "ga sesuai pola, harus depannya u"})
-//     }
-//   } else if (e.target.name == "password") {
-//     if (passRegex.test(e.target.value)) {
-//       setErrMessage({...errMessage, password: ""})
-//     } else {
-//       setErrMessage({...errMessage, password: "ga sesuai pola, harus depannya p"})
-//     }
-//   }
-// }
-
 import { useState } from 'react';
 import { useFormik } from 'formik';
 import { ViewIcon, ViewOffIcon } from '@chakra-ui/icons';
@@ -31,7 +13,7 @@ import {
 } from '@chakra-ui/react';
 
 import { login } from '../redux/actions/userAction';
-import CardForm from './CardForm';
+import CardForm from '../components/CardForm';
 
 function Login() {
   const dispatch = useDispatch();
@@ -45,7 +27,6 @@ function Login() {
     },
     // validate,
     onSubmit: values => {
-      console.log(values);
       dispatch(login(values));
     },
   });

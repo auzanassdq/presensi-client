@@ -91,7 +91,7 @@ export const getAllMatkul = (matkul, user) => async dispatch => {
 export const getMahasiswaMatkul = userId => async dispatch => {
   dispatch(apiRequest());
 
-  let result = await await axios({
+  let result = await axios({
     method: 'get',
     url: `${process.env.REACT_APP_API}/ambil-matkul/mahasiswa/${userId}`,
     headers: authHeader(),

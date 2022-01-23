@@ -3,9 +3,8 @@ import { Route, Switch, useParams, useRouteMatch } from 'react-router';
 
 import MatkulTable from './matkul/MatkulTable';
 import PertemuanTable from './pertemuan/PertemuanTable';
-import DosenTable from './dosen/DosenTable';
-import MahasiswaTable from './mahasiswa/MahasiswaTable';
 import MahasiswaInPertemuanTable from './mahasiswaInPertemuan/MahasiswaInPertemuanTable';
+import ContentTable from './content/ContentTable';
 
 export default function DashboardContent({ dashboardURL }) {
   const { content } = useParams();
@@ -25,7 +24,7 @@ export default function DashboardContent({ dashboardURL }) {
         <Route path={`${dashboardURL}/matkul/:matkulId/:pertemuanId`}>
           <MahasiswaInPertemuanTable />
         </Route>
-        <Heading>Ngaco</Heading>
+        <Heading>Salah Alamat</Heading>
       </Switch>
     </Box>
   );
@@ -36,9 +35,9 @@ function ContentSwitcher({ content }) {
     case 'matkul':
       return <MatkulTable />;
     case 'dosen':
-      return <DosenTable />;
+      return <ContentTable content={content}/>;
     case 'mahasiswa':
-      return <MahasiswaTable />;
+      return <ContentTable content={content}/>;
     default:
       break;
   }

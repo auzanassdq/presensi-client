@@ -2,9 +2,9 @@ import {
   VStack,
 } from '@chakra-ui/react';
 
-import PertemuanUpcoming from './PertemuanUpcoming';
-import MyKelas from './MyKelas';
-import PertemuanCurrent from './PertemuanCurrent';
+import PertemuanUpcoming from '../../components/PertemuanUpcoming';
+import MyKelas from '../../components/MyKelas';
+import PertemuanCurrent from '../../components/PertemuanCurrent';
 
 function MyDashboard() {
   return (
